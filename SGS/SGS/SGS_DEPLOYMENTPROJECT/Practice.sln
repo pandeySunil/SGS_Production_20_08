@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.271
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Practice", "SGS_DEPLOYMENTPROJECT\Practice.csproj", "{80067931-76D8-4C87-91D6-2F89D534048F}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SGS", "SGS\SGS.vdproj", "{89E26536-3BD7-443F-BD52-CB9CB5813BE6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{80067931-76D8-4C87-91D6-2F89D534048F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80067931-76D8-4C87-91D6-2F89D534048F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80067931-76D8-4C87-91D6-2F89D534048F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80067931-76D8-4C87-91D6-2F89D534048F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89E26536-3BD7-443F-BD52-CB9CB5813BE6}.Debug|Any CPU.ActiveCfg = Debug
+		{89E26536-3BD7-443F-BD52-CB9CB5813BE6}.Release|Any CPU.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3D0FAB18-7CA5-4984-B8D9-071F48F5F3AC}
+	EndGlobalSection
+EndGlobal
