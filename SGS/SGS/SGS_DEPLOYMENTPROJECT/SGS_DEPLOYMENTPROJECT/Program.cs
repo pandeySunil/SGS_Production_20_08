@@ -18,9 +18,9 @@ namespace SGS_DEPLOYMENTPROJECT
             Application.SetCompatibleTextRenderingDefault(false);
             // Application.Run(new Login());
             Helper.form1 = new Form1();
-
+            Helper.FlashScreen = new FlashScreen();
            //Helper.iOCheck = new IOCheck();
-            Application.Run(Helper.form1);
+            Application.Run(Helper.FlashScreen);
         }
 
     }

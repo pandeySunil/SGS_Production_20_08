@@ -19,7 +19,7 @@ namespace SGS_DEPLOYMENTPROJECT
     {
         public ArdiunoAdapter ardiunoAdapter { get; set; }
         public int ImagIndex { get; set; }
-        public bool useArdiuno = true;
+        public bool useArdiuno = false;
         public bool backgroudThreadSleepFlag;
         public bool imageBlickFalg = true;
         BusinessLogic businessLogic { get; set; }
@@ -73,9 +73,7 @@ namespace SGS_DEPLOYMENTPROJECT
             }
             //SelectExcelFile();
            // SetFolderPath();
-            if (Helper.assetFolderPath ==null|| Helper.assetFolderPath == "") {
-                SetFolderPath();
-            }
+           
           
             BackGroundThread = new Thread(() => Navigation());
             BackGroundThread.IsBackground = true;
@@ -458,24 +456,7 @@ namespace SGS_DEPLOYMENTPROJECT
             labelTime.Text = DateTime.Now.ToString("HH:mm:ss");
 
         }
-        private void SetFolderPath() {
-
-            Helper.assetFolderPath = "";
-            using (var fldrDlg = new FolderBrowserDialog())
-            {
-                //fldrDlg.Filter = "Png Files (*.png)|*.png";
-                //fldrDlg.Filter = "Excel Files (*.xls, *.xlsx)|*.xls;*.xlsx|CSV Files (*.csv)|*.csv"
-
-                if (fldrDlg.ShowDialog() == DialogResult.OK)
-                {
-                    Helper.assetFolderPath =  fldrDlg.SelectedPath;
-                    //fldrDlg.SelectedPath -- your result
-                }
-            }
-
-          
-
-        }
+       
         public void LoadImage(int imageId) {
             if (ImageGetter == null) {
                 ImageGetter = new ImageGetter();

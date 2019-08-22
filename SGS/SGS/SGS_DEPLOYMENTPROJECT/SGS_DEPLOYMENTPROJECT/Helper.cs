@@ -16,6 +16,8 @@ namespace SGS_DEPLOYMENTPROJECT
         public static CreateUser CreateUser { get; set; }
         public static IOCheck iOCheck { get; set; }
         public static Form1 form1 { get; set; }
+        public static Login Login { get; set; }
+        public static FlashScreen FlashScreen { get; set; }
         public static string  assetFolderPath { get; set; }
 
     }

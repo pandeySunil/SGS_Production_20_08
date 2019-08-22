@@ -46,7 +46,13 @@ namespace SGS_DEPLOYMENTPROJECT
             
             
         }
-
+        private void Login_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                MessageBox.Show("Enter key pressed");
+            }
+        }
         private bool ValidateUser() {
             bool flag = false;
             SQLConnectionSetUp conObj = new SQLConnectionSetUp();
