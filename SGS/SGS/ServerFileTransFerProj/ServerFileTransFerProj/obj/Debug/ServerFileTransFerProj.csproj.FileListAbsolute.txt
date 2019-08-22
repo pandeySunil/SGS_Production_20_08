@@ -1,0 +1,7 @@
+C:\Users\Sunil.Pandey\source\repos\ServerFileTransFerProj\ServerFileTransFerProj\bin\Debug\ServerFileTransFerProj.exe.config
+C:\Users\Sunil.Pandey\source\repos\ServerFileTransFerProj\ServerFileTransFerProj\bin\Debug\ServerFileTransFerProj.exe
+C:\Users\Sunil.Pandey\source\repos\ServerFileTransFerProj\ServerFileTransFerProj\bin\Debug\ServerFileTransFerProj.pdb
+C:\Users\Sunil.Pandey\source\repos\ServerFileTransFerProj\ServerFileTransFerProj\obj\Debug\ServerFileTransFerProj.csprojAssemblyReference.cache
+C:\Users\Sunil.Pandey\source\repos\ServerFileTransFerProj\ServerFileTransFerProj\obj\Debug\ServerFileTransFerProj.csproj.CoreCompileInputs.cache
+C:\Users\Sunil.Pandey\source\repos\ServerFileTransFerProj\ServerFileTransFerProj\obj\Debug\ServerFileTransFerProj.exe
+C:\Users\Sunil.Pandey\source\repos\ServerFileTransFerProj\ServerFileTransFerProj\obj\Debug\ServerFileTransFerProj.pdb
