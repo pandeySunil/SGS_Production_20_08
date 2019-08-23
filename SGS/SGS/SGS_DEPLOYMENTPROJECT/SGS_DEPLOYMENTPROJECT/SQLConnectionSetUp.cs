@@ -15,6 +15,7 @@ namespace SGS_DEPLOYMENTPROJECT
             {
                 SqlConnection conn = new SqlConnection();
                 conn.ConnectionString = ConfigurationManager.AppSettings.Get("ConnectionString");
+                conn.ConnectionString = @"Data Source=sql.freeasphost.net\MSSQL2016;Initial Catalog=pandeysunil_SampleDB;Persist Security Info=True;User ID=pandeysunil_SampleDB;Password=DBSamplePW";
                 return conn;
             }
             catch (Exception Ex) {

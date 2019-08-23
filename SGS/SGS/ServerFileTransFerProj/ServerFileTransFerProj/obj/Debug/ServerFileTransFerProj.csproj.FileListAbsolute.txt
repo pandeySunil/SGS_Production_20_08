@@ -5,3 +5,10 @@ C:\Users\Sunil.Pandey\source\repos\ServerFileTransFerProj\ServerFileTransFerProj
 C:\Users\Sunil.Pandey\source\repos\ServerFileTransFerProj\ServerFileTransFerProj\obj\Debug\ServerFileTransFerProj.csproj.CoreCompileInputs.cache
 C:\Users\Sunil.Pandey\source\repos\ServerFileTransFerProj\ServerFileTransFerProj\obj\Debug\ServerFileTransFerProj.exe
 C:\Users\Sunil.Pandey\source\repos\ServerFileTransFerProj\ServerFileTransFerProj\obj\Debug\ServerFileTransFerProj.pdb
+D:\Users\Sunil.Pandey\Source\Repos\SGS_Production_20_08\SGS\SGS\ServerFileTransFerProj\ServerFileTransFerProj\bin\Debug\ServerFileTransFerProj.exe.config
+D:\Users\Sunil.Pandey\Source\Repos\SGS_Production_20_08\SGS\SGS\ServerFileTransFerProj\ServerFileTransFerProj\bin\Debug\ServerFileTransFerProj.exe
+D:\Users\Sunil.Pandey\Source\Repos\SGS_Production_20_08\SGS\SGS\ServerFileTransFerProj\ServerFileTransFerProj\bin\Debug\ServerFileTransFerProj.pdb
+D:\Users\Sunil.Pandey\Source\Repos\SGS_Production_20_08\SGS\SGS\ServerFileTransFerProj\ServerFileTransFerProj\obj\Debug\ServerFileTransFerProj.csprojAssemblyReference.cache
+D:\Users\Sunil.Pandey\Source\Repos\SGS_Production_20_08\SGS\SGS\ServerFileTransFerProj\ServerFileTransFerProj\obj\Debug\ServerFileTransFerProj.csproj.CoreCompileInputs.cache
+D:\Users\Sunil.Pandey\Source\Repos\SGS_Production_20_08\SGS\SGS\ServerFileTransFerProj\ServerFileTransFerProj\obj\Debug\ServerFileTransFerProj.exe
+D:\Users\Sunil.Pandey\Source\Repos\SGS_Production_20_08\SGS\SGS\ServerFileTransFerProj\ServerFileTransFerProj\obj\Debug\ServerFileTransFerProj.pdb

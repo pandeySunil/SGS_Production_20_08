@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Net;
@@ -41,8 +42,44 @@ namespace SGS_DEPLOYMENTPROJECT
             // Get the IP  
             string myIP = Dns.GetHostByName(hostName).AddressList[0].ToString();
             Console.WriteLine("My IP Address is :" + myIP);
-            
+            SetIP(hostName, myIP);
+
+
         }
+        private void SetIP(string SystemName, string IpAddress) {
+            bool flag;
+            SQLConnectionSetUp conObj = new SQLConnectionSetUp();
+            var Con = conObj.GetConn();
+            try
+            {
+
+                Con.Open();
+                SqlCommand cmd = new SqlCommand("SetSystems", Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@SystemName", SystemName.Trim());
+                cmd.Parameters.AddWithValue("@IPAddress", IpAddress.Trim());
+                cmd.Parameters.AddWithValue("@UserIdLoggedIn", 1);
+                MessageBox.Show("System Info Saved");
+
+               
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show("Syteme Info Could Not Be saved  " +"Error Message "+Ex.Message);
+
+            }
+            finally { Con.Close(); }
+
+           
+        
+
+
+
+
+
+
+
+    }
         private void SetFolderPath()
         {
 
