@@ -18,7 +18,9 @@ namespace SGS_DEPLOYMENTPROJECT
         {
             InitializeComponent();
             FormBorderStyle = FormBorderStyle.None;
-            WindowState = FormWindowState.Maximized;
+            //  WindowState = FormWindowState.Maximized;
+           // this.textBoxPassword.KeyPress 
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(CheckEnterKeyPress);
 
         }
 
@@ -50,7 +52,7 @@ namespace SGS_DEPLOYMENTPROJECT
         {
             if (e.KeyCode == Keys.Enter)
             {
-                MessageBox.Show("Enter key pressed");
+               
             }
         }
         private bool ValidateUser() {
@@ -96,6 +98,24 @@ namespace SGS_DEPLOYMENTPROJECT
         private void textBoxUsername_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+
+        }
+        private void CheckEnterKeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Return)
+
+            {
+                MessageBox.Show("Enter key pressed");
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

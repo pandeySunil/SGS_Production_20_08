@@ -111,10 +111,32 @@ namespace SGS_DEPLOYMENTPROJECT
         private void button4_Click(object sender, EventArgs e)
         {
             // new FileSelect().Show();
-            MessageBox.Show("Changing File Will Stop The Current Cycle ");
-            SelectExcelFile();
-        }
+            MessageBox.Show(Properties.Settings.Default.FileSelectMode.ToString());
 
+            // SelectExcelFile();
+            switch (Properties.Settings.Default.FileSelectMode) { 
+                case 1:
+                break;
+            case 2:
+                    BarCodeFileSelect();
+                break;
+            case 3:
+                    MessageBox.Show("E-Planning Feature In Progress");
+                break;
+
+
+            }
+        }
+        private void BarCodeFileSelect() {
+            var fileSelectForm = new FileSelectSettingInput();
+           
+            fileSelectForm.Show();
+            fileSelectForm.Focus();
+           // fileSelectForm.
+
+
+        }
+        
         private void button5_Click(object sender, EventArgs e)
         {
             Application.Exit();

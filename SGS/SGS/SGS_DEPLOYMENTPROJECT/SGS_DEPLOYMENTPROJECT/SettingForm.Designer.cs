@@ -36,6 +36,8 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.settingDropDown = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // label2
@@ -110,11 +112,37 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(175, 140);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(86, 13);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "File Select Mode";
+            // 
+            // settingDropDown
+            // 
+            this.settingDropDown.FormattingEnabled = true;
+            this.settingDropDown.Items.AddRange(new object[] {
+            "Select File Select Mode",
+            "Manual",
+            "E-Planning",
+            "Bar Code Reader"});
+            this.settingDropDown.Location = new System.Drawing.Point(142, 176);
+            this.settingDropDown.Name = "settingDropDown";
+            this.settingDropDown.Size = new System.Drawing.Size(139, 21);
+            this.settingDropDown.TabIndex = 11;
+            this.settingDropDown.SelectedIndexChanged += new System.EventHandler(this.SettingModeChanged);
+            // 
             // SettingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.settingDropDown);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -124,6 +152,7 @@
             this.Controls.Add(this.textBoxStationName);
             this.Controls.Add(this.label2);
             this.Name = "SettingForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SettingForm";
             this.Load += new System.EventHandler(this.SettingForm_Load);
             this.ResumeLayout(false);
@@ -141,5 +170,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox settingDropDown;
     }
 }

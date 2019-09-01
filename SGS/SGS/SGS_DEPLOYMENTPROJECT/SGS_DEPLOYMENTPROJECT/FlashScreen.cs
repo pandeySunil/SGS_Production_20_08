@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -14,26 +15,43 @@ namespace SGS_DEPLOYMENTPROJECT
 {
     public partial class FlashScreen : Form
     {
+        public Thread BackGroundThread { get; set; }
+
         public FlashScreen()
         {
             InitializeComponent();
             FormBorderStyle = FormBorderStyle.None;
-            WindowState = FormWindowState.Maximized;
+           // WindowState = FormWindowState.Maximized;
+           BackGroundThread = new Thread(() => BackGroundProc());
+            BackGroundThread.IsBackground = true;
+            BackGroundThread.SetApartmentState(ApartmentState.STA);
+           
         }
-
-        private void FlashScreen_Load(object sender, EventArgs e)
-        {
+        private void BackGroundProc() {
             if (Helper.assetFolderPath == null || Helper.assetFolderPath == "")
             {
                 SetFolderPath();
             }
             GetIP();
 
-            var l = new Login();
-            l.Show();
-            l.Focus();
-           // Thread.Sleep();
-            this.Hide();
+           
+            // Thread.Sleep();
+            //this.Hide();
+           
+            Helper.FlashScreen.Invoke(new MethodInvoker(delegate {
+                var l = new Login();
+                l.Show();
+                l.Focus();
+                Helper.FlashScreen.Hide();
+
+               // Helper.FlashScreen.Dispose();
+            }));
+        }
+        [STAThread]
+        private void FlashScreen_Load(object sender, EventArgs e)
+        {
+            BackGroundThread.Start();
+           // BackGroundThread.Join();
         }
         private void GetIP() {
 
@@ -59,9 +77,8 @@ namespace SGS_DEPLOYMENTPROJECT
                 cmd.Parameters.AddWithValue("@SystemName", SystemName.Trim());
                 cmd.Parameters.AddWithValue("@IPAddress", IpAddress.Trim());
                 cmd.Parameters.AddWithValue("@UserIdLoggedIn", 1);
-                MessageBox.Show("System Info Saved");
-
-               
+                var k = Convert.ToInt32(cmd.ExecuteScalar());
+                //MessageBox.Show("System Info Saved");
             }
             catch (Exception Ex)
             {

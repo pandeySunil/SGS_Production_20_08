@@ -30,8 +30,8 @@ namespace SGS_DEPLOYMENTPROJECT
             textBoxPort.ReadOnly = true;
             textBoxStationName.ReadOnly = true;
             FormBorderStyle = FormBorderStyle.None;
-            WindowState = FormWindowState.Maximized;
-
+           // WindowState = FormWindowState.Maximized;
+            settingDropDown.SelectedIndex = Properties.Settings.Default.FileSelectMode;
 
         }
 
@@ -119,6 +119,17 @@ namespace SGS_DEPLOYMENTPROJECT
         private void button4_Click(object sender, EventArgs e)
         {
             new CreateUser().Show();
+        }
+
+        private void SettingModeChanged(object sender, EventArgs e)
+        {
+            
+            //  
+            
+
+            Properties.Settings.Default.FileSelectMode = settingDropDown.SelectedIndex;
+            Properties.Settings.Default.Save();
+            settingDropDown.SelectedIndex = Properties.Settings.Default.FileSelectMode;
         }
     }
 }
