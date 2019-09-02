@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SGS_DEPLOYMENTPROJECT;
 
 namespace SGS_DEPLOYMENTPROJECT
 {
@@ -94,8 +95,8 @@ namespace SGS_DEPLOYMENTPROJECT
             if (useArdiuno) {
                 ardiunoAdapter = new ArdiunoAdapter(useArdiuno);
             }
-            DataLoad();
-            ImageGetter = new ImageGetter();
+           // DataLoad();
+          //  ImageGetter = new ImageGetter();
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -111,11 +112,12 @@ namespace SGS_DEPLOYMENTPROJECT
         private void button4_Click(object sender, EventArgs e)
         {
             // new FileSelect().Show();
-            MessageBox.Show(Properties.Settings.Default.FileSelectMode.ToString());
+            //MessageBox.Show(Properties.Settings.Default.FileSelectMode.ToString());
 
             // SelectExcelFile();
             switch (Properties.Settings.Default.FileSelectMode) { 
                 case 1:
+                    SetFolderPath();
                 break;
             case 2:
                     BarCodeFileSelect();
@@ -129,11 +131,21 @@ namespace SGS_DEPLOYMENTPROJECT
         }
         private void BarCodeFileSelect() {
             var fileSelectForm = new FileSelectSettingInput();
+            // fileSelectForm.Show();
+            //fileSelectForm.Focus();
+            // fileSelectForm.
+            var dilogInputbox = new InputDilogBox();
+             var  refVale = "";
+            ;
+            if ((dilogInputbox.InputBox("Use Barcode Reader ", "", ref refVale)) == DialogResult.OK)
+            {
+                Helper.assetFolderPath = @"C:/ " + "SGS_BASEDICRECTORY/"+refVale;
+                if (!Directory.Exists(Helper.assetFolderPath))
+                {
+                    MessageBox.Show(refVale + "Folder Doesn't Exist");
+                }
+            }
            
-            fileSelectForm.Show();
-            fileSelectForm.Focus();
-           // fileSelectForm.
-
 
         }
         
@@ -194,8 +206,11 @@ namespace SGS_DEPLOYMENTPROJECT
            // textBoxDevelopersArea.Text += "Opening Serial Port\\n";
             //SerialPort.Open();
             businessLogic = new BusinessLogic();
-            businessLogic.InitializeExcel();
-            xlRange = businessLogic.InitializeExcel();
+            if (Helper.assetFolderPath != "" || Helper.assetFolderPath != null)
+            {
+                businessLogic.InitializeExcel();
+                xlRange = businessLogic.InitializeExcel();
+            }
            // textBoxDevelopersArea.Text += "Sheet Intiallized\\n";
 
             int Count = 1;
@@ -312,7 +327,25 @@ namespace SGS_DEPLOYMENTPROJECT
             textTackTime.Text = elapsedTime;
 
         }
+        private void SetFolderPath()
+        {
 
+           
+
+            Helper.assetFolderPath = "";
+           // @"C:/" + "SGS_BASEDICRECTORY"
+
+            using (var fldrDlg = new FolderBrowserDialog())
+            {
+                fldrDlg.SelectedPath  = @"C:/ " + "SGS_BASEDICRECTORY";
+               
+                if (fldrDlg.ShowDialog() == DialogResult.OK)
+                {
+                    Helper.assetFolderPath = fldrDlg.SelectedPath;
+                    //fldrDlg.SelectedPath -- your result
+                }
+            }
+        }
         private void btnOn_Click(object sender, EventArgs e)
         {
 
@@ -369,18 +402,17 @@ namespace SGS_DEPLOYMENTPROJECT
             var filePath = "";
             // Create and open a file selector
             OpenFileDialog opnDlg = new OpenFileDialog();
-            opnDlg.InitialDirectory = ".";
+            opnDlg.InitialDirectory = @"C:/ " + "SGS_BASEDICRECTORY";
 
             // select filter type
             //opnDlg.Filter = "Parm Files (*.parm)|*.parmAll Files (*.*)|*.*";
 
             if (opnDlg.ShowDialog(this) == DialogResult.OK)
             {
-                // If file is in start folder remove path
+                
                 FileInfo f = new FileInfo(opnDlg.FileName);
-
-                // use relative path if under application
-                // starting directory
+                //f.
+                
                 if (f.DirectoryName == Application.StartupPath)
                     filePath = f.Name;  // only file name
                 else if (f.DirectoryName.StartsWith(Application.StartupPath))
@@ -459,7 +491,10 @@ namespace SGS_DEPLOYMENTPROJECT
             if (dialogResult == DialogResult.Yes)
             {
                 BackGroundThread.Abort();
-                new SettingForm().Show();
+                var settingForm = new SettingForm();
+                if (settingForm != null) {
+                    settingForm.Show();
+                }
             }
             else if (dialogResult == DialogResult.No)
             {

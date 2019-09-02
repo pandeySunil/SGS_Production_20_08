@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,10 +24,13 @@ namespace SGS_DEPLOYMENTPROJECT
             if (e.KeyChar == (char)Keys.Return)
 
             {
-                MessageBox.Show("Enter key pressed");
-                txtBoxVal = textBox1.Text;
+               
+                Helper.assetFolderPath = @"C:/ " + "SGS_BASEDICRECTORY/"+textBox1.Text;
+                
 
             }
+            this.Hide();
+            this.Close();
         }
     }
 }

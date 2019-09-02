@@ -127,8 +127,7 @@
             this.settingDropDown.Items.AddRange(new object[] {
             "Select File Select Mode",
             "Manual",
-            "E-Planning",
-            "Bar Code Reader"});
+            "Bar Code Reader","E-Planning"});
             this.settingDropDown.Location = new System.Drawing.Point(142, 176);
             this.settingDropDown.Name = "settingDropDown";
             this.settingDropDown.Size = new System.Drawing.Size(139, 21);

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -25,12 +26,16 @@ namespace SGS_DEPLOYMENTPROJECT
            BackGroundThread = new Thread(() => BackGroundProc());
             BackGroundThread.IsBackground = true;
             BackGroundThread.SetApartmentState(ApartmentState.STA);
-           
+            if (!Directory.Exists(@"C:/" + "SGS_BASEDICRECTORY")){
+                Directory.CreateDirectory(@"C:/" + "SGS_BASEDICRECTORY");
+            }
+
+
         }
         private void BackGroundProc() {
             if (Helper.assetFolderPath == null || Helper.assetFolderPath == "")
             {
-                SetFolderPath();
+               // SetFolderPath();
             }
             GetIP();
 
@@ -97,21 +102,6 @@ namespace SGS_DEPLOYMENTPROJECT
 
 
     }
-        private void SetFolderPath()
-        {
-
-            Helper.assetFolderPath = "";
-            using (var fldrDlg = new FolderBrowserDialog())
-            {
-                //fldrDlg.Filter = "Png Files (*.png)|*.png";
-                //fldrDlg.Filter = "Excel Files (*.xls, *.xlsx)|*.xls;*.xlsx|CSV Files (*.csv)|*.csv"
-
-                if (fldrDlg.ShowDialog() == DialogResult.OK)
-                {
-                    Helper.assetFolderPath = fldrDlg.SelectedPath;
-                    //fldrDlg.SelectedPath -- your result
-                }
-            }
-        }
+        
     }
 }

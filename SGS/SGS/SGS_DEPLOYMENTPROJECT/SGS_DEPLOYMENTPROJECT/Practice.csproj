@@ -109,6 +109,7 @@
     </Compile>
     <Compile Include="Helper.cs" />
     <Compile Include="ImageGetter.cs" />
+    <Compile Include="InputDilogBox.cs" />
     <Compile Include="IOCheck.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -130,6 +130,8 @@ namespace SGS_DEPLOYMENTPROJECT
             Properties.Settings.Default.FileSelectMode = settingDropDown.SelectedIndex;
             Properties.Settings.Default.Save();
             settingDropDown.SelectedIndex = Properties.Settings.Default.FileSelectMode;
+            this.Hide();
+            
         }
     }
 }

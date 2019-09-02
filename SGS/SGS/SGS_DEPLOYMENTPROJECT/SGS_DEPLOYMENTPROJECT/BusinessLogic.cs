@@ -21,11 +21,13 @@ namespace SGS_DEPLOYMENTPROJECT
         public static string switchCode;
 
         public Excel.Range InitializeExcel() {
-
+            if (Helper.assetFolderPath != null&&Helper.assetFolderPath != "") {
+            
             Excel.Application xlApp = new Excel.Application();
             Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(Helper.assetFolderPath+"\\Sheet.xlsx");
             Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
             Excel.Range xlRange = xlWorksheet.UsedRange;
+            }
             return xlRange;
         }
 
