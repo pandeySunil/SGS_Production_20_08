@@ -20,7 +20,8 @@ namespace SGS_DEPLOYMENTPROJECT
     {
         public ArdiunoAdapter ardiunoAdapter { get; set; }
         public int ImagIndex { get; set; }
-        public bool useArdiuno = false;
+        public bool useArdiuno = true;
+
         public bool backgroudThreadSleepFlag;
         public bool imageBlickFalg = true;
         BusinessLogic businessLogic { get; set; }
@@ -94,6 +95,8 @@ namespace SGS_DEPLOYMENTPROJECT
             Console.WriteLine("Sytem Running in Dev mode----");
             if (useArdiuno) {
                 ardiunoAdapter = new ArdiunoAdapter(useArdiuno);
+
+                useArdiuno = Helper.ArdinoCon;
             }
            // DataLoad();
           //  ImageGetter = new ImageGetter();
@@ -121,10 +124,12 @@ namespace SGS_DEPLOYMENTPROJECT
                 break;
             case 2:
                     BarCodeFileSelect();
+                    
+                    
                 break;
             case 3:
                     MessageBox.Show("E-Planning Feature In Progress");
-                break;
+                    break;
 
 
             }
@@ -139,10 +144,14 @@ namespace SGS_DEPLOYMENTPROJECT
             ;
             if ((dilogInputbox.InputBox("Use Barcode Reader ", "", ref refVale)) == DialogResult.OK)
             {
-                Helper.assetFolderPath = @"C:/ " + "SGS_BASEDICRECTORY/"+refVale;
+                Helper.assetFolderPath = @"C:\" + @"SGS_BASEDICRECTORY\"+refVale;
                 if (!Directory.Exists(Helper.assetFolderPath))
                 {
                     MessageBox.Show(refVale + "Folder Doesn't Exist");
+                }
+                else {
+                    DataLoad();
+                    
                 }
             }
            
@@ -205,113 +214,86 @@ namespace SGS_DEPLOYMENTPROJECT
            // SerialPort = ArdiunoConnection.IntializeAudiun();
            // textBoxDevelopersArea.Text += "Opening Serial Port\\n";
             //SerialPort.Open();
-            businessLogic = new BusinessLogic();
-            if (Helper.assetFolderPath != "" || Helper.assetFolderPath != null)
-            {
-                businessLogic.InitializeExcel();
-                xlRange = businessLogic.InitializeExcel();
-            }
+            //businessLogic = new BusinessLogic();
+            //if (Helper.assetFolderPath != "" || Helper.assetFolderPath != null)
+            //{
+            //    businessLogic.InitializeExcel();
+            //    xlRange = businessLogic.InitializeExcel();
+            //}
            // textBoxDevelopersArea.Text += "Sheet Intiallized\\n";
 
             int Count = 1;
             ImageLoadThread.Start();
             int i = 2;
             bool sheetDataFlag = true;
-            while(sheetDataFlag)
+            bool indexIncrementFlag = false;
+            if (xlRange.Cells[i, 2] != null && xlRange.Cells[i, 2].Value2 != null)
             {
-               // textBoxDevelopersArea.Text += "Next Iteration \\n";
+
+
+                trayCode = xlRange.Cells[i, 2].Value2.ToString().Trim('/');
+
+                string temp1 = xlRange.Cells[i, 3].Value2.ToString().Trim('/');
+                trayCode = "000" + trayCode + "00" + temp1;
+                Console.WriteLine("trayCode");
+                Console.WriteLine(trayCode);
+                if (useArdiuno)
+                {
+                    ardiunoAdapter.Send(trayCode);
+                }
+                string temp2 = xlRange.Cells[i, 5].Value2.ToString().Trim('/');
+                string temp3 = xlRange.Cells[i, 6].Value2.ToString().Trim('/');
+                Console.WriteLine("Description Message");
+                var descMessage = "Take Wire From " + temp2 + " put it into connecter NO." + temp3;
+                Console.WriteLine(descMessage);
+                ImagIndex = Convert.ToInt32(xlRange.Cells[i, 7].Value2.ToString().Trim('/'));
+                ledOnCode = trayCode + temp1;
+                ledOffCode = trayCode + temp2;
+                indexIncrementFlag = true;
+            }
+            while (sheetDataFlag)
+            {
+              
                 Console.WriteLine(Count);
                 Console.WriteLine("Started----");
                 if (xlRange.Cells[i, 2] != null && xlRange.Cells[i, 2].Value2 != null)
                 {
 
-                    trayCode = xlRange.Cells[i, 2].Value2.ToString().Trim('/');
                     
-                    string temp1 = xlRange.Cells[i, 3].Value2.ToString().Trim('/');
-                    trayCode = "000" + trayCode + "00" + temp1;
-                    Console.WriteLine("trayCode");
-                    Console.WriteLine(trayCode);
-                    if (useArdiuno) {
-                        ardiunoAdapter.Send(trayCode);
-                    }
-                    string temp2 = xlRange.Cells[i, 5].Value2.ToString().Trim('/');
-                    string temp3 = xlRange.Cells[i, 6].Value2.ToString().Trim('/');
-                    Console.WriteLine("Description Message");
-                    var descMessage = "Take Wire From " + temp2 + " put it into connecter NO." + temp3;
-                    Console.WriteLine(descMessage);
-                    ImagIndex = Convert.ToInt32(xlRange.Cells[i, 7].Value2.ToString().Trim('/'));
-                    ledOnCode = trayCode + temp1;
-                    ledOffCode = trayCode + temp2;
-                    //switchCode = xlRange.Cells[i, 4].Value2.ToString().Trim('/');\
-                    switchCode = "SW"+(xlRange.Cells[i, 4].Value2.ToString().Trim('/'));
+                    switchCode = "SW" + (xlRange.Cells[i, 4].Value2.ToString().Trim('/'));
 
-                   Console.WriteLine("SwitchCode-Sheet: " + switchCode);
-                    //SerialPort.Write(ledOnCode);
+                    Console.WriteLine("Press: " + switchCode);
+                   
                     sWInput = SwitchPress(Convert.ToInt32(xlRange.Cells[i, 7].Value2.ToString().Trim('/')));
-                    // textBoxDevelopersArea.Text += "SwitchCode - Ardiuno: " + sWInput + "\\n";
-                    //Console.WriteLine("SwitchCode-Ardiuno: " + sWInput);
-                    //textBoxDevelopersArea.Text += "SwitchCode - Ardiuno: " + sWInput + "\\n";
-                    //Console.WriteLine(ledOnCode);
-                    textBoxDescription.Text = descMessage;
-                    var temp11 = sWInput.Substring(sWInput.IndexOf('S'), sWInput.Length-2);
-                    sWInput = temp11;
-                   var ardinoInputCode = switchCode + "\r";
+                    if (indexIncrementFlag)
+                    {
+                        i++;
+                        indexIncrementFlag = false;
+                    }
+                    // textBoxDescription.Text = descMessage;
+
+                    var temp11 = sWInput.Contains(switchCode);
+                  
+                    var ardinoInputCode = switchCode + "\r";
                     var consoleInputCode = switchCode;
 
                     var ardinoInputCodefalg = string.Equals(sWInput, ardinoInputCode, StringComparison.OrdinalIgnoreCase);
-                   var consoleInputCodefalg = string.Equals(sWInput, consoleInputCode, StringComparison.OrdinalIgnoreCase);
-                    if (ardinoInputCodefalg|| consoleInputCodefalg)
+                    var consoleInputCodefalg = string.Equals(sWInput, consoleInputCode, StringComparison.OrdinalIgnoreCase);
+                    if (ardinoInputCodefalg || consoleInputCodefalg || temp11)
                     {
-                        //SerialPort.Write(ledOffCode);
                         switchCode = xlRange.Cells[i, 6].Value2.ToString().Trim('/');
-                        sWInput = SwitchPress(Convert.ToInt32(xlRange.Cells[i, 7].Value2.ToString().Trim('/')));
-                        temp11 = sWInput.Substring(sWInput.IndexOf('S'), sWInput.Length);
-                        sWInput = temp11; 
-                        //  t = switchCode + "\r";
+                        temp11 = sWInput.Contains(switchCode);
                         ardinoInputCode = switchCode + "\r";
                         consoleInputCode = switchCode;
                         ardinoInputCodefalg = string.Equals(sWInput, ardinoInputCode, StringComparison.OrdinalIgnoreCase);
                         consoleInputCodefalg = string.Equals(sWInput, consoleInputCode, StringComparison.OrdinalIgnoreCase);
-                        if (ardinoInputCodefalg || consoleInputCodefalg)
-                        {
+                        ImagIndex = Convert.ToInt32(xlRange.Cells[i, 7].Value2.ToString().Trim('/'));
+                        indexIncrementFlag = true;
+                        Count++;
 
-                            temp2 = xlRange.Cells[i, 5].Value2.ToString().Trim('/');
-                            ledOnCode = trayCode + temp1;
-                            // textBoxDevelopersArea.Text += "ledOnCode: " + ledOnCode + "\\n";
-                            //Console.WriteLine(ledOnCode);
-                            //SerialPort.Write(ledOnCode);
-
-                            textBoxDescription.Text = descMessage;
-                           ImagIndex = Convert.ToInt32(xlRange.Cells[i, 7].Value2.ToString().Trim('/'));
-                            // textBoxDevelopersArea.Text += "DesMag: " + xlRange.Cells[i, 7].Value2.ToString().Trim('/') + "\\n";
-                            textBoxPullConnection.Text = xlRange.Cells[i, 8].Value2.ToString().Trim('/');
-
-                            imgUrl = xlRange.Cells[i, 9].Value2.ToString().Trim('/');
-                            //  Bitmap image = new Bitmap("C:\\Users\\Akshay\\Desktop\\SGS\\SGS_MEDIA\\" + imgUrl);
-                           // pictureBox.Image = (Image)image;
-                            //var originalImage = (Image)ImageGetter.GetBitmap(0);
-                            //var modifiedImage = (Image)ImageGetter.GetBitmap(1);
-                            //bool toggleFlag = false;
-                            //var imageId = 1;
-                            //while (imageBlickFalg)
-                            //{
-                            //    if (toggleFlag)
-                            //    {
-                            //        pictureBox.Image = originalImage;
-                            //        toggleFlag = false;
-                            //    }
-                            //    else
-                            //    {
-                            //        pictureBox.Image = modifiedImage;
-                            //        toggleFlag = true;
-                            //    }
-                            //    Thread.Sleep(250);
-                            //}
-                        }
-                        i++;
                     }
 
-                    Count++;
+                   
                     if (backgroudThreadSleepFlag) {
                         while (true) {
 
@@ -561,17 +543,11 @@ namespace SGS_DEPLOYMENTPROJECT
         }
         private void DataLoad()
         {
-            if (Helper.ExcelSheetName != "" || true)
-            {
-                businessLogic.InitializeExcel();
+              // businessLogic.InitializeExcel();
                 xlRange = businessLogic.InitializeExcel();
-               
-            }
+            ImageGetter = new ImageGetter();
 
-            else
-            {
-                MessageBox.Show("First Choose The Excel File");
-            }
+
 
         }
     }

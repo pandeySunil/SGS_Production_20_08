@@ -34,7 +34,8 @@ namespace SGS_DEPLOYMENTPROJECT
             }
             catch (Exception Ex)
             {
-
+                Console.WriteLine("ComPort:"+ ConfigurationManager.AppSettings.Get("portName"));
+                Console.WriteLine("BaudRate:" + 115200);
             }
             return mySerialPort;
         }

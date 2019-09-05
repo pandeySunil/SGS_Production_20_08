@@ -89,13 +89,14 @@ D:\Users\Sunil.Pandey\Source\Repos\SGS_Production_20_08\SGS\SGS\SGS_DEPLOYMENTPR
 D:\Users\Sunil.Pandey\Source\Repos\SGS_Production_20_08\SGS\SGS\SGS_DEPLOYMENTPROJECT\SGS_DEPLOYMENTPROJECT\obj\Debug\Practice.csproj.CopyComplete
 D:\Users\Sunil.Pandey\Source\Repos\SGS_Production_20_08\SGS\SGS\SGS_DEPLOYMENTPROJECT\SGS_DEPLOYMENTPROJECT\obj\Debug\SGS_DEPLOYMENTPROJECT.exe
 D:\Users\Sunil.Pandey\Source\Repos\SGS_Production_20_08\SGS\SGS\SGS_DEPLOYMENTPROJECT\SGS_DEPLOYMENTPROJECT\obj\Debug\SGS_DEPLOYMENTPROJECT.pdb
-C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\SGS_DEPLOYMENTPROJECT\SGS_DEPLOYMENTPROJECT\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\SGS_DEPLOYMENTPROJECT\SGS_DEPLOYMENTPROJECT\bin\Debug\SGS_DEPLOYMENTPROJECT.exe.config
 C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\SGS_DEPLOYMENTPROJECT\SGS_DEPLOYMENTPROJECT\bin\Debug\SGS_DEPLOYMENTPROJECT.exe
 C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\SGS_DEPLOYMENTPROJECT\SGS_DEPLOYMENTPROJECT\bin\Debug\SGS_DEPLOYMENTPROJECT.pdb
+C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\SGS_DEPLOYMENTPROJECT\SGS_DEPLOYMENTPROJECT\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\SGS_DEPLOYMENTPROJECT\SGS_DEPLOYMENTPROJECT\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\SGS_DEPLOYMENTPROJECT\SGS_DEPLOYMENTPROJECT\obj\Debug\SGS_DEPLOYMENTPROJECT.CreateUser.resources
 C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\SGS_DEPLOYMENTPROJECT\SGS_DEPLOYMENTPROJECT\obj\Debug\SGS_DEPLOYMENTPROJECT.FileSelect.resources
+C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\SGS_DEPLOYMENTPROJECT\SGS_DEPLOYMENTPROJECT\obj\Debug\SGS_DEPLOYMENTPROJECT.FileSelectSettingInput.resources
 C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\SGS_DEPLOYMENTPROJECT\SGS_DEPLOYMENTPROJECT\obj\Debug\SGS_DEPLOYMENTPROJECT.FlashScreen.resources
 C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\SGS_DEPLOYMENTPROJECT\SGS_DEPLOYMENTPROJECT\obj\Debug\SGS_DEPLOYMENTPROJECT.Form1.resources
 C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\SGS_DEPLOYMENTPROJECT\SGS_DEPLOYMENTPROJECT\obj\Debug\SGS_DEPLOYMENTPROJECT.IOCheck.resources
@@ -108,4 +109,3 @@ C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\SGS_DEPLOYMENTPR
 C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\SGS_DEPLOYMENTPROJECT\SGS_DEPLOYMENTPROJECT\obj\Debug\SGS_DEPLOYMENTPROJECT.exe
 C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\SGS_DEPLOYMENTPROJECT\SGS_DEPLOYMENTPROJECT\obj\Debug\SGS_DEPLOYMENTPROJECT.pdb
 C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\SGS_DEPLOYMENTPROJECT\SGS_DEPLOYMENTPROJECT\obj\Debug\Practice.csprojAssemblyReference.cache
-C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\SGS_DEPLOYMENTPROJECT\SGS_DEPLOYMENTPROJECT\obj\Debug\SGS_DEPLOYMENTPROJECT.FileSelectSettingInput.resources

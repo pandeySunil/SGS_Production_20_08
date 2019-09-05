@@ -12,7 +12,7 @@ namespace SGS_DEPLOYMENTPROJECT
     public class BusinessLogic
     {
         public static SerialPort SerialPort;
-        public static Excel.Range xlRange;
+      public static Excel.Range xlRange;
         public static int loopCount = 1;
         public static string ledOnCode;
         public static string ledOffCode;
@@ -26,7 +26,7 @@ namespace SGS_DEPLOYMENTPROJECT
             Excel.Application xlApp = new Excel.Application();
             Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(Helper.assetFolderPath+"\\Sheet.xlsx");
             Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
-            Excel.Range xlRange = xlWorksheet.UsedRange;
+            xlRange = xlWorksheet.UsedRange;
             }
             return xlRange;
         }

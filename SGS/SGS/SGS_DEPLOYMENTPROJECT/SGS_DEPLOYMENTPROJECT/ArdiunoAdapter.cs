@@ -12,10 +12,22 @@ namespace SGS_DEPLOYMENTPROJECT
         public SerialPort serialPort { get; set; }
         public string input { get; set; }
         public ArdiunoAdapter(bool intiateArdiuno) {
-            if (intiateArdiuno) {
-                serialPort = ArdiunoConnection.IntializeAudiun();
-                serialPort.Open();
+            try {
+
+                if (intiateArdiuno||true)
+                {
+                    serialPort = ArdiunoConnection.IntializeAudiun();
+                    serialPort.Open();
+                    Helper.ArdinoCon = true;
+                }
             }
+            catch (Exception e) {
+                Console.WriteLine("Cannot Open Ardino Connection Using Serial window, close and open application to retry");
+                Console.WriteLine("Cannot Open Ardino Connection Using Serial window, close and open application to retry");
+                Helper.ArdinoCon = false;
+
+            }
+           
             
         }
 
