@@ -40,8 +40,14 @@ namespace SGS_DEPLOYMENTPROJECT
             label10.Text = "";
             label12.Text = "";
             label14.Text = "";
-            serialPort = ArdiunoConnection.IntializeAudiun();
-         serialPort.Open();
+            if (Helper.serialPort == null)
+            {
+                serialPort = ArdiunoConnection.IntializeAudiun();
+            }
+            else {
+                serialPort = Helper.serialPort;
+            }
+        
         }
 
         private void button1_Click(object sender, EventArgs e)

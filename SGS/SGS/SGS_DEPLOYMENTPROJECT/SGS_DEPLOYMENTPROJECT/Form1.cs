@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
@@ -20,6 +21,8 @@ namespace SGS_DEPLOYMENTPROJECT
     {
         public ArdiunoAdapter ardiunoAdapter { get; set; }
         public int ImagIndex { get; set; }
+        public int completed { get; set; }
+        public int pending { get; set; }
         public bool useArdiuno = true;
 
         public bool backgroudThreadSleepFlag;
@@ -45,9 +48,22 @@ namespace SGS_DEPLOYMENTPROJECT
         private void Form1_Load(object sender, EventArgs e)
         {
             textBox2.Text = "PRTNO";
+            textTackTime.Text = "00";
             textBox1.Text = "00";
             textBox3.Text = "00";
             textBox5.Text = "00";
+            try
+            {
+                Helper.target = Convert.ToInt32(ConfigurationManager.AppSettings.Get("target"));
+                pending = Helper.target;
+                completed = 0;
+                textBox3.Text = Convert.ToString(completed);
+                textBox5.Text = Convert.ToString(pending);
+            }
+            catch (Exception Ex) {
+                MessageBox.Show("Please set the target");
+            }
+
             textBox2.ForeColor = System.Drawing.Color.GreenYellow;
             textBox1.ForeColor = System.Drawing.Color.GreenYellow;
             textBox3.ForeColor = System.Drawing.Color.GreenYellow;
@@ -97,6 +113,7 @@ namespace SGS_DEPLOYMENTPROJECT
                 ardiunoAdapter = new ArdiunoAdapter(useArdiuno);
 
                 useArdiuno = Helper.ArdinoCon;
+                useArdiuno = true;
             }
            // DataLoad();
           //  ImageGetter = new ImageGetter();
@@ -151,6 +168,7 @@ namespace SGS_DEPLOYMENTPROJECT
                 }
                 else {
                     DataLoad();
+                    textBox2.Text = refVale;
                     
                 }
             }
@@ -181,25 +199,130 @@ namespace SGS_DEPLOYMENTPROJECT
 
         private void btnRun_Click(object sender, EventArgs e)
         {
-            if (useArdiuno) {
-                ardiunoAdapter.HardWareFunction("000010000");
+            if (Helper.assetFolderPath!=null&&Helper.assetFolderPath != "")
+            {
+                if (useArdiuno)
+                {
+                    ardiunoAdapter.HardWareFunction("000010000");
+                }
+                BackGroundThread.Start();
+              
             }
-            BackGroundThread.Start();
-            // textBoxDevelopersArea.Text += "Navigation Thread is Stated\\n";
-            //if (Helper.ExcelSheetName != ""||true)
-            //{
-            //    businessLogic.InitializeExcel();
-            //    xlRange = businessLogic.InitializeExcel();
-            //    BackGroundThread.Start();
-            //}
+            else {
+                MessageBox.Show("NO asset folder is selected ");
+            }
+           
+        }
+        private void NavigationModified()
+        {
+           
+           var descMessage = "";
+            string temp1;
+            var ImageLoadThread = new Thread(() => LoadImage(0));
+            ImageLoadThread.IsBackground = true;
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+            TextBox.CheckForIllegalCrossThreadCalls = false;
+            PictureBox.CheckForIllegalCrossThreadCalls = false;
+            bool iterationFlag = true;
+            int i = 2;
+            if (!ImageLoadThread.IsAlive)
+            {
+                ImageLoadThread.Start();
+            }
+            
+            if (xlRange.Cells[i, 2] != null && xlRange.Cells[i, 2].Value2 != null)
+            {
+                trayCode = xlRange.Cells[i, 2].Value2.ToString().Trim('/');
+                temp1 = xlRange.Cells[i, 3].Value2.ToString().Trim('/');
+                trayCode = "000" + trayCode + "00" + temp1;
+                Console.WriteLine("trayCode");
+                Console.WriteLine(trayCode);
+                if (useArdiuno)
+                {
+                    ardiunoAdapter.Send(trayCode);
+                }
+                string temp2 = xlRange.Cells[i, 5].Value2.ToString().Trim('/');
+                string temp3 = xlRange.Cells[i, 6].Value2.ToString().Trim('/');
+                Console.WriteLine("Description Message");
+                descMessage = "Take Wire From " + temp2 + " put it into connecter NO." + temp3;
+                textBoxDescription.Text = descMessage;
+                Console.WriteLine(descMessage);
+                ImagIndex = Convert.ToInt32(xlRange.Cells[i, 7].Value2.ToString().Trim('/'));
+                while (iterationFlag)
+                {
+                    // iterationFlag = false;
+                    if (xlRange.Cells[i, 4].Value2 == null) {
+                        //For tac time 
+                        TimeSpan ts1 = stopWatch.Elapsed;
+                        stopWatch.Stop();
+                        ts1 = stopWatch.Elapsed;
+                         
+                        textTackTime.Text = Convert.ToString(ts1.Seconds);
+                        return;
+                    }
 
-            //else {
-            //    MessageBox.Show("First Choose The Excel File");
-            //}
-            //new Thread(() => Navigation()) { IsBackground = true }.Start();
+                    switchCode = "SW" + (xlRange.Cells[i, 4].Value2.ToString().Trim('/'));
+                    Console.WriteLine("Switch-Code From sheet--- " + switchCode);
+                    sWInput = SwitchPress(Convert.ToInt32(xlRange.Cells[i, 7].Value2.ToString().Trim('/')));
+                    Console.WriteLine("Switch-Code From Ardiuno--- " + sWInput);
+
+                    var temp11 = sWInput.Contains(switchCode);
+                    if (temp11)
+                    {
+                        i++;
+                        if (xlRange.Cells[i, 2] != null && xlRange.Cells[i, 2].Value2 != null)
+                        {
+                            trayCode = xlRange.Cells[i, 2].Value2.ToString().Trim('/');
+                            temp1 = xlRange.Cells[i, 3].Value2.ToString().Trim('/');
+                            trayCode = "000" + trayCode + "00" + temp1;
+                            Console.WriteLine("trayCode");
+                            Console.WriteLine(trayCode);
+                            if (useArdiuno)
+                            {
+                                ardiunoAdapter.Send(trayCode);
+                            }
+                            temp2 = xlRange.Cells[i, 5].Value2.ToString().Trim('/');
+                            temp3 = xlRange.Cells[i, 6].Value2.ToString().Trim('/');
+                            Console.WriteLine("Description Message");
+                            descMessage = "Take Wire From " + temp2 + " put it into connecter NO." + temp3;
+                            Console.WriteLine(descMessage);
+                            textBoxDescription.Text = descMessage;
+                            ImagIndex = Convert.ToInt32(xlRange.Cells[i, 7].Value2.ToString().Trim('/'));
+                           
+                            iterationFlag = true;
+                        }
+                    }
+
+                }
+            }
+
+           TimeSpan ts = stopWatch.Elapsed;
+            stopWatch.Stop();
+            ts = stopWatch.Elapsed;
+            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                        ts.Hours, ts.Minutes, ts.Seconds,
+                        ts.Milliseconds / 10);
+            textTackTime.Text = Convert.ToString(ts);
+
         }
         private void Navigation()
         {
+            TextBox.CheckForIllegalCrossThreadCalls = false;
+
+            while (true) {
+                textBox1.Text = Convert.ToString(Helper.target);
+                if (Helper.target > 0) {
+                    NavigationModified();
+                    completed++;
+                    
+                         textBox3.Text = Convert.ToString(completed);
+                    textBox5.Text = Convert.ToString(Helper.target - completed);
+                }
+            }
+            
+            return;
+            
             var ImageLoadThread = new Thread(() => LoadImage(0));
             ImageLoadThread.IsBackground = true;
            
@@ -245,6 +368,7 @@ namespace SGS_DEPLOYMENTPROJECT
                 string temp3 = xlRange.Cells[i, 6].Value2.ToString().Trim('/');
                 Console.WriteLine("Description Message");
                 var descMessage = "Take Wire From " + temp2 + " put it into connecter NO." + temp3;
+                textBoxDescription.Text = descMessage;
                 Console.WriteLine(descMessage);
                 ImagIndex = Convert.ToInt32(xlRange.Cells[i, 7].Value2.ToString().Trim('/'));
                 ledOnCode = trayCode + temp1;
@@ -258,8 +382,21 @@ namespace SGS_DEPLOYMENTPROJECT
                 Console.WriteLine("Started----");
                 if (xlRange.Cells[i, 2] != null && xlRange.Cells[i, 2].Value2 != null)
                 {
+                    string temp2 = xlRange.Cells[i, 5].Value2.ToString().Trim('/');
+                    string temp3 = xlRange.Cells[i, 6].Value2.ToString().Trim('/');
+                    var  descMessage = "Take Wire From " + temp2 + " put it into connecter NO." + temp3;
+                    textBoxDescription.Text = descMessage;
+                    trayCode = xlRange.Cells[i, 2].Value2.ToString().Trim('/');
 
-                    
+                    string temp1 = xlRange.Cells[i, 3].Value2.ToString().Trim('/');
+                    trayCode = "000" + trayCode + "00" + temp1;
+                    Console.WriteLine("trayCode");
+                    Console.WriteLine(trayCode);
+                    if (useArdiuno)
+                    {
+                        ardiunoAdapter.Send(trayCode);
+                    }
+
                     switchCode = "SW" + (xlRange.Cells[i, 4].Value2.ToString().Trim('/'));
 
                     Console.WriteLine("Press: " + switchCode);
@@ -281,7 +418,19 @@ namespace SGS_DEPLOYMENTPROJECT
                     var consoleInputCodefalg = string.Equals(sWInput, consoleInputCode, StringComparison.OrdinalIgnoreCase);
                     if (ardinoInputCodefalg || consoleInputCodefalg || temp11)
                     {
+                        trayCode = xlRange.Cells[i, 2].Value2.ToString().Trim('/');
+                        descMessage = "Take Wire From " + temp2 + " put it into connecter NO." + temp3;
+                        textBoxDescription.Text = descMessage;
+                        temp1 = xlRange.Cells[i, 3].Value2.ToString().Trim('/');
+                        trayCode = "000" + trayCode + "00" + temp1;
+                        Console.WriteLine("trayCode");
+                        Console.WriteLine(trayCode);
+                        if (useArdiuno)
+                        {
+                            ardiunoAdapter.Send(trayCode);
+                        }
                         switchCode = xlRange.Cells[i, 6].Value2.ToString().Trim('/');
+
                         temp11 = sWInput.Contains(switchCode);
                         ardinoInputCode = switchCode + "\r";
                         consoleInputCode = switchCode;
@@ -325,6 +474,8 @@ namespace SGS_DEPLOYMENTPROJECT
                 {
                     Helper.assetFolderPath = fldrDlg.SelectedPath;
                     //fldrDlg.SelectedPath -- your result
+                    textBox2.Text = fldrDlg.SelectedPath;
+                    DataLoad();
                 }
             }
         }

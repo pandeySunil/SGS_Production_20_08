@@ -38,6 +38,7 @@
             this.button4 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.settingDropDown = new System.Windows.Forms.ComboBox();
+            this.button6 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label2
@@ -127,12 +128,23 @@
             this.settingDropDown.Items.AddRange(new object[] {
             "Select File Select Mode",
             "Manual",
-            "Bar Code Reader","E-Planning"});
+            "Bar Code Reader",
+            "E-Planning"});
             this.settingDropDown.Location = new System.Drawing.Point(142, 176);
             this.settingDropDown.Name = "settingDropDown";
             this.settingDropDown.Size = new System.Drawing.Size(139, 21);
             this.settingDropDown.TabIndex = 11;
             this.settingDropDown.SelectedIndexChanged += new System.EventHandler(this.SettingModeChanged);
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(320, 176);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(396, 23);
+            this.button6.TabIndex = 13;
+            this.button6.Text = "IO Check";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.Button6_Click);
             // 
             // SettingForm
             // 
@@ -140,6 +152,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button6);
             this.Controls.Add(this.settingDropDown);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.button4);
@@ -171,5 +184,6 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox settingDropDown;
+        private System.Windows.Forms.Button button6;
     }
 }

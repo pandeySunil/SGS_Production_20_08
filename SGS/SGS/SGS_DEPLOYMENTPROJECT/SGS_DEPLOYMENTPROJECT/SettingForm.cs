@@ -133,5 +133,15 @@ namespace SGS_DEPLOYMENTPROJECT
             this.Hide();
             
         }
+
+        private void Button6_Click(object sender, EventArgs e)
+        {
+            if (Helper.iOCheck == null)
+            {
+                Helper.iOCheck = new IOCheck();
+
+            }
+            Helper.iOCheck.Show();
+        }
     }
 }

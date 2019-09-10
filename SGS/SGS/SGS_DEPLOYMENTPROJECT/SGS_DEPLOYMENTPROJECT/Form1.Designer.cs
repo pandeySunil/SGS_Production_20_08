@@ -134,6 +134,8 @@
             // 
             // textTackTime
             // 
+            this.textTackTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textTackTime.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.textTackTime.Location = new System.Drawing.Point(888, 87);
             this.textTackTime.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textTackTime.Multiline = true;

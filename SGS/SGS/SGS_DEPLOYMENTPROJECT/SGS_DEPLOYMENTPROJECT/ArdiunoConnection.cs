@@ -21,7 +21,7 @@ namespace SGS_DEPLOYMENTPROJECT
             {
                 var  PortName = ConfigurationManager.AppSettings.Get("portName");
                // PortName = "COM11";
-                PortName = ConfigurationManager.AppSettings.Get("comport");
+                PortName = ConfigurationManager.AppSettings.Get("portName");
                 mySerialPort = new SerialPort(PortName);
                 mySerialPort.BaudRate = 115200;
                 mySerialPort.Parity = Parity.None;
@@ -29,6 +29,7 @@ namespace SGS_DEPLOYMENTPROJECT
                 mySerialPort.DataBits = 8;
                 mySerialPort.Handshake = Handshake.None;
                 mySerialPort.RtsEnable = true;
+                Helper.serialPort = mySerialPort;
                 return mySerialPort;
 
             }
