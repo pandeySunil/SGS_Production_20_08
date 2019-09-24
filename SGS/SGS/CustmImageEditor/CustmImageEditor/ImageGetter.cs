@@ -16,13 +16,14 @@ namespace SGS_DEPLOYMENTPROJECT
         public Image image { get; set; }
         public Bitmap pbImageBitmap { get; set; }
         public List<JsonShape> jsonShapes;
+        public string folderpath = @"C:\SGS_BASEDICRECTORY\13";
         public List<shape> drawnShapes = new List<shape>();
         public ImageGetter() {
 
             try
             {
 
-                using (StreamReader r = new StreamReader(Helper.assetFolderPath+"\\BaseImageConfig.json"))
+                using (StreamReader r = new StreamReader(folderpath + "\\BaseImageConfig.json"))
                 {
                     Console.WriteLine("Reading File..");
                     string json = r.ReadToEnd();
@@ -33,7 +34,6 @@ namespace SGS_DEPLOYMENTPROJECT
 
                 }
             }
-
             catch (Exception Ex)
             {
                 MessageBox.Show(Ex.Message);
@@ -85,14 +85,14 @@ namespace SGS_DEPLOYMENTPROJECT
 
         }
         public Bitmap GetBitmap(int shapepointer) {
-            filePath = Helper.assetFolderPath+"\\BaseImage.PNG";
+            filePath = folderpath+"\\BaseImage.PNG";
             if (shapepointer == 0)
             {
                 return new Bitmap(filePath);
             }
             else
             {
-                if (drawnShapes.Count() > shapepointer) {
+                if (drawnShapes.Count() >= shapepointer&& shapepointer!=0) {
                     image = Image.FromFile(filePath);
                     DrawShape(drawnShapes[shapepointer].x_cortinate, drawnShapes[shapepointer].y_cortinate,
                         drawnShapes[shapepointer].reatSize, drawnShapes[shapepointer].p, drawnShapes[shapepointer].penSize, drawnShapes[shapepointer].reactString,

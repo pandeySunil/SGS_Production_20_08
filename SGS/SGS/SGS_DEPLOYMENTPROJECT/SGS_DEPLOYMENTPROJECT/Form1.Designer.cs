@@ -145,6 +145,8 @@
             // 
             // textToTal
             // 
+            this.textToTal.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textToTal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.textToTal.Location = new System.Drawing.Point(888, 211);
             this.textToTal.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textToTal.Multiline = true;

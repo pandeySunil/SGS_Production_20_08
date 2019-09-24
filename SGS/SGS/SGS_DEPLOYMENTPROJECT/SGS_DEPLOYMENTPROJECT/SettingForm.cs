@@ -143,5 +143,12 @@ namespace SGS_DEPLOYMENTPROJECT
             }
             Helper.iOCheck.Show();
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            var m = new Performance______Moniter();
+            m.Show();
+            m.Focus();
+        }
     }
 }

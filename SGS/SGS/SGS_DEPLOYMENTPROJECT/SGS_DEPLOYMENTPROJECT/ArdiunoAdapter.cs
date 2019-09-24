@@ -36,7 +36,16 @@ namespace SGS_DEPLOYMENTPROJECT
         }
          public void Send(string s)
         {
-            serialPort.Write(s);
+            try
+            {
+                serialPort.Write(s);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("InnerException  " + e.InnerException);
+                Console.WriteLine("Message  " + e.Message);
+                Console.WriteLine("Message  " + e.StackTrace);
+            }
         }
         public string Receive() {
              input = String.Empty;
@@ -45,7 +54,14 @@ namespace SGS_DEPLOYMENTPROJECT
             return input;
         }
         public void HardWareFunction(string s) {
-            serialPort.Write(s);
+            try {
+                serialPort.Write(s);
+            }
+            catch (Exception e) {
+                Console.WriteLine("InnerException  "+e.InnerException);
+                Console.WriteLine("Message  " + e.Message);
+                Console.WriteLine("Message  " + e.StackTrace);
+            }
 
         }
     }

@@ -24,7 +24,8 @@ namespace SGS_DEPLOYMENTPROJECT
         public int completed { get; set; }
         public int pending { get; set; }
         public bool useArdiuno = true;
-
+        public double totalTacTime;
+        public List<Rows> ExcelRows {get;set;}
         public bool backgroudThreadSleepFlag;
         public bool imageBlickFalg = true;
         BusinessLogic businessLogic { get; set; }
@@ -38,6 +39,7 @@ namespace SGS_DEPLOYMENTPROJECT
         public static string trayCode;
         public static string sWInput;
         public static string switchCode;
+        public Thread ImageLoadThread { get; set; }
         public Thread BackGroundThread;
         public string imgUrl;
         public Form1()
@@ -113,7 +115,7 @@ namespace SGS_DEPLOYMENTPROJECT
                 ardiunoAdapter = new ArdiunoAdapter(useArdiuno);
 
                 useArdiuno = Helper.ArdinoCon;
-                useArdiuno = true;
+                //useArdiuno = true;
             }
            // DataLoad();
           //  ImageGetter = new ImageGetter();
@@ -213,23 +215,132 @@ namespace SGS_DEPLOYMENTPROJECT
             }
            
         }
+        private void NavigationModified2()
+        {
+            //if (useArdiuno)
+            //{
+            //    ardiunoAdapter.Send(trayCode);
+            //}
+            var descMessage = "";
+            string temp1;
+            // var ImageLoadThread = new Thread(() => LoadImage(0));
+            //ImageLoadThread.IsBackground = true;
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+            TextBox.CheckForIllegalCrossThreadCalls = false;
+            PictureBox.CheckForIllegalCrossThreadCalls = false;
+            bool iterationFlag = true;
+            int i = 0;
+            //if (!ImageLoadThread.IsAlive)
+            //{
+            //  //  ImageLoadThread.Start();
+            //}
+
+            if (true)
+            {
+                trayCode = ExcelRows[i].TryLed;
+                temp1 = ExcelRows[i].CavityLed;
+                trayCode = "000" + trayCode + "00" + temp1;
+                Console.WriteLine("trayCode");
+                Console.WriteLine(trayCode);
+                if (useArdiuno)
+                {
+                    ardiunoAdapter.Send(trayCode);
+                }
+                string temp2 = ExcelRows[i].DesMessage;
+                string temp3 = ExcelRows[i].ConnectorNo;
+                Console.WriteLine("Description Message");
+                descMessage = "Take Wire From " + temp2 + " put it into connecter NO." + temp3;
+                textBoxDescription.Text = descMessage;
+                Console.WriteLine(descMessage);
+                ImagIndex = Convert.ToInt32(ExcelRows[i].ImageId);
+                while (iterationFlag)
+                {
+                    // iterationFlag = false;
+                    if (i>=ExcelRows.Count())
+                    {
+                        //For tac time 
+                        TimeSpan ts1 = stopWatch.Elapsed;
+                        stopWatch.Stop();
+                        ts1 = stopWatch.Elapsed;
+
+                        textTackTime.Text = Convert.ToString(ts1.Seconds);
+                        totalTacTime += Convert.ToDouble(ts1.Seconds);
+                        // textToTal.Text = Convert.ToString(totalTacTime);
+                        TimeSpan totalTactimespan = TimeSpan.FromSeconds(totalTacTime);
+
+                        textToTal.Text = string.Format("{1:D2}m:{2:D2}s",
+                                        totalTactimespan.Hours,
+                                        totalTactimespan.Minutes,
+                                        totalTactimespan.Seconds,
+                                        totalTactimespan.Milliseconds);
+                        return;
+                    }
+
+                    switchCode = "SW" + ExcelRows[i].SwCode;
+                    Console.WriteLine("Switch-Code From sheet--- " + switchCode);
+                    sWInput = SwitchPress(Convert.ToInt32(ExcelRows[i].ImageId));
+                    Console.WriteLine("Switch-Code From Ardiuno--- " + sWInput);
+
+                    var temp11 = sWInput.Contains(switchCode);
+                    if (temp11)
+                    {
+                        i++;
+                        if (true)
+                        {
+                            trayCode = ExcelRows[i].TryLed; ;
+                            temp1 = ExcelRows[i].CavityLed; 
+                            trayCode = "000" + trayCode + "00" + temp1;
+                            Console.WriteLine("trayCode");
+                            Console.WriteLine(trayCode);
+                            if (useArdiuno)
+                            {
+                                ardiunoAdapter.Send(trayCode);
+                            }
+                            temp2 = ExcelRows[i].DesMessage; 
+                            temp3 = ExcelRows[i].ConnectorNo; 
+                            Console.WriteLine("Description Message");
+                            descMessage = "Take Wire From " + temp2 + " put it into connecter NO." + temp3;
+                            Console.WriteLine(descMessage);
+                            textBoxDescription.Text = descMessage;
+                            ImagIndex = Convert.ToInt32(ExcelRows[i].ImageId);
+
+                            iterationFlag = true;
+                        }
+                    }
+
+                }
+            }
+
+            TimeSpan ts = stopWatch.Elapsed;
+            stopWatch.Stop();
+            ts = stopWatch.Elapsed;
+            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                        ts.Hours, ts.Minutes, ts.Seconds,
+                        ts.Milliseconds / 10);
+            textTackTime.Text = Convert.ToString(ts);
+
+        }
         private void NavigationModified()
         {
-           
+           if (useArdiuno)
+                {
+                    ardiunoAdapter.Send(trayCode);
+                }
            var descMessage = "";
             string temp1;
-            var ImageLoadThread = new Thread(() => LoadImage(0));
-            ImageLoadThread.IsBackground = true;
+           // var ImageLoadThread = new Thread(() => LoadImage(0));
+            //ImageLoadThread.IsBackground = true;
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
             TextBox.CheckForIllegalCrossThreadCalls = false;
             PictureBox.CheckForIllegalCrossThreadCalls = false;
             bool iterationFlag = true;
             int i = 2;
-            if (!ImageLoadThread.IsAlive)
-            {
-                ImageLoadThread.Start();
-            }
+            //if (!ImageLoadThread.IsAlive)
+            //{
+            //  //  ImageLoadThread.Start();
+            //}
             
             if (xlRange.Cells[i, 2] != null && xlRange.Cells[i, 2].Value2 != null)
             {
@@ -259,6 +370,15 @@ namespace SGS_DEPLOYMENTPROJECT
                         ts1 = stopWatch.Elapsed;
                          
                         textTackTime.Text = Convert.ToString(ts1.Seconds);
+                        totalTacTime += Convert.ToDouble(ts1.Seconds);
+                       // textToTal.Text = Convert.ToString(totalTacTime);
+                        TimeSpan totalTactimespan = TimeSpan.FromSeconds(totalTacTime);
+
+                        textToTal.Text = string.Format("{1:D2}m:{2:D2}s",
+                                        totalTactimespan.Hours,
+                                        totalTactimespan.Minutes,
+                                        totalTactimespan.Seconds,
+                                        totalTactimespan.Milliseconds);
                         return;
                     }
 
@@ -308,12 +428,17 @@ namespace SGS_DEPLOYMENTPROJECT
         }
         private void Navigation()
         {
+            ExcelSheetData e = new ExcelSheetData();
+            ExcelRows =  e.GetRows(xlRange);
+            Console.WriteLine("Excel Sheet Data Loaded");
             TextBox.CheckForIllegalCrossThreadCalls = false;
-
+         var   ImageLoadThread = new Thread(() => LoadImage(0));
+            ImageLoadThread.IsBackground = true;
+            ImageLoadThread.Start();
             while (true) {
                 textBox1.Text = Convert.ToString(Helper.target);
-                if (Helper.target > 0) {
-                    NavigationModified();
+                if ((Helper.target - completed) > 0) {
+                    NavigationModified2();
                     completed++;
                     
                          textBox3.Text = Convert.ToString(completed);
@@ -323,8 +448,8 @@ namespace SGS_DEPLOYMENTPROJECT
             
             return;
             
-            var ImageLoadThread = new Thread(() => LoadImage(0));
-            ImageLoadThread.IsBackground = true;
+            //var ImageLoadThread = new Thread(() => LoadImage(0));
+            //ImageLoadThread.IsBackground = true;
            
             
             Stopwatch stopWatch = new Stopwatch();

@@ -21,3 +21,17 @@ C:\Users\Sunil.Pandey\Desktop\CustmImageEditor\CustmImageEditor\CustmImageEditor
 C:\Users\Sunil.Pandey\Desktop\CustmImageEditor\CustmImageEditor\CustmImageEditor\obj\Debug\CustmImageEditor.csproj.CopyComplete
 C:\Users\Sunil.Pandey\Desktop\CustmImageEditor\CustmImageEditor\CustmImageEditor\obj\Debug\CustmImageEditor.exe
 C:\Users\Sunil.Pandey\Desktop\CustmImageEditor\CustmImageEditor\CustmImageEditor\obj\Debug\CustmImageEditor.pdb
+C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\CustmImageEditor\CustmImageEditor\bin\Debug\CustmImageEditor.exe.config
+C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\CustmImageEditor\CustmImageEditor\bin\Debug\CustmImageEditor.exe
+C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\CustmImageEditor\CustmImageEditor\bin\Debug\CustmImageEditor.pdb
+C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\CustmImageEditor\CustmImageEditor\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\CustmImageEditor\CustmImageEditor\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\CustmImageEditor\CustmImageEditor\obj\Debug\CustmImageEditor.csprojAssemblyReference.cache
+C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\CustmImageEditor\CustmImageEditor\obj\Debug\CustmImageEditor.Form1.resources
+C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\CustmImageEditor\CustmImageEditor\obj\Debug\CustmImageEditor.Properties.Resources.resources
+C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\CustmImageEditor\CustmImageEditor\obj\Debug\CustmImageEditor.csproj.GenerateResource.cache
+C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\CustmImageEditor\CustmImageEditor\obj\Debug\CustmImageEditor.csproj.CoreCompileInputs.cache
+C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\CustmImageEditor\CustmImageEditor\obj\Debug\CustmImageEditor.csproj.CopyComplete
+C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\CustmImageEditor\CustmImageEditor\obj\Debug\CustmImageEditor.exe
+C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\CustmImageEditor\CustmImageEditor\obj\Debug\CustmImageEditor.pdb
+C:\Users\Sunil.Pandey\source\repos\SGS_Production_20_08\SGS\SGS\CustmImageEditor\CustmImageEditor\obj\Debug\CustmImageEditor.ImageViewer.resources

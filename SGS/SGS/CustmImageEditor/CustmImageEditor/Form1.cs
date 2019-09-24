@@ -177,7 +177,11 @@ namespace CustmImageEditor
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            
+            var i = new ImageViewer();
+                i.Show();
+
+            i.Focus();
+            this.Hide();
         }
         private void SaveImage(Image img) {
 
