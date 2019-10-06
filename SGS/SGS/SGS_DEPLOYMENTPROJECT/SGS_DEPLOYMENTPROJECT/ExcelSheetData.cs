@@ -18,10 +18,11 @@ namespace SGS_DEPLOYMENTPROJECT
                 Console.WriteLine("Loading row ---  "+i);
                 rw.Add(new Rows() { SwCode = (xlRange.Cells[i, 4].Value2.ToString().Trim('/')),
                     TryLed = xlRange.Cells[i, 2].Value2.ToString().Trim('/'),
-                    CavityLed= xlRange.Cells[i, 3].Value2.ToString().Trim('/'),
+                    CavityLed = xlRange.Cells[i, 3].Value2.ToString().Trim('/'),
                     DesMessage = xlRange.Cells[i, 5].Value2.ToString().Trim('/'),
                     ConnectorNo = xlRange.Cells[i, 6].Value2.ToString().Trim('/'),
-                    ImageId = xlRange.Cells[i, 7].Value2.ToString().Trim('/')
+                    ImageId = xlRange.Cells[i, 7].Value2.ToString().Trim('/'),
+                    ImageFile = xlRange.Cells[i, 8].Value2.ToString().Trim('/')
                 });
                 i++;
             }
@@ -36,6 +37,8 @@ namespace SGS_DEPLOYMENTPROJECT
         public string ImageId { get; set; }
         public string DesMessage { get; set; }
         public string ConnectorNo { get; set; }
-        
+        public string ImageFile { get; set; }
+
+
     }
 }

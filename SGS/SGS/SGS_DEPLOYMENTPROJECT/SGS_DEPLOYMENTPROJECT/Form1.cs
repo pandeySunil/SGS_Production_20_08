@@ -30,7 +30,7 @@ namespace SGS_DEPLOYMENTPROJECT
         public bool imageBlickFalg = true;
         BusinessLogic businessLogic { get; set; }
         public static SerialPort SerialPort;
-        public ImageGetter ImageGetter;
+        public ImageDataIntializer ImageGetter;
         //= new ImageGetter();
         Microsoft.Office.Interop.Excel.Range xlRange;
         public static int loopCount = 1;
@@ -42,6 +42,10 @@ namespace SGS_DEPLOYMENTPROJECT
         public Thread ImageLoadThread { get; set; }
         public Thread BackGroundThread;
         public string imgUrl;
+        //public static int ImagIndex { get; set; }
+        public static int counter { get; set; }
+        public static String imageFileId;
+        public Dictionary<string, Bitmap> OriginalImages = new Dictionary<string, Bitmap>();
         public Form1()
         {
             InitializeComponent();
@@ -240,6 +244,8 @@ namespace SGS_DEPLOYMENTPROJECT
             {
                 trayCode = ExcelRows[i].TryLed;
                 temp1 = ExcelRows[i].CavityLed;
+                ImagIndex = Convert.ToInt32(ExcelRows[i].ImageId);
+                imageFileId = ExcelRows[i].ImageFile;
                 trayCode = "000" + trayCode + "00" + temp1;
                 Console.WriteLine("trayCode");
                 Console.WriteLine(trayCode);
@@ -293,6 +299,8 @@ namespace SGS_DEPLOYMENTPROJECT
                             trayCode = "000" + trayCode + "00" + temp1;
                             Console.WriteLine("trayCode");
                             Console.WriteLine(trayCode);
+                            ImagIndex = Convert.ToInt32(ExcelRows[i].ImageId);
+                            imageFileId = ExcelRows[i].ImageFile;
                             if (useArdiuno)
                             {
                                 ardiunoAdapter.Send(trayCode);
@@ -432,7 +440,7 @@ namespace SGS_DEPLOYMENTPROJECT
             ExcelRows =  e.GetRows(xlRange);
             Console.WriteLine("Excel Sheet Data Loaded");
             TextBox.CheckForIllegalCrossThreadCalls = false;
-         var   ImageLoadThread = new Thread(() => LoadImage(0));
+         var   ImageLoadThread = new Thread(() => LoadImage(0, ExcelRows[0].ImageFile));
             ImageLoadThread.IsBackground = true;
             ImageLoadThread.Start();
             while (true) {
@@ -615,8 +623,8 @@ namespace SGS_DEPLOYMENTPROJECT
             var readText = "";
             bool Flag = true;
           bool   toggleFlag = true;
-            var originalImage = (Image)ImageGetter.GetBitmap(0);
-            var modifiedImage = (Image)ImageGetter.GetBitmap(imageId);
+            //var originalImage = (Image)ImageGetter.GetBitmap(0);
+            //var modifiedImage = (Image)ImageGetter.GetBitmap(imageId);
             while (Flag)
             {
                 //if (toggleFlag)
@@ -771,20 +779,34 @@ namespace SGS_DEPLOYMENTPROJECT
             labelTime.Text = DateTime.Now.ToString("HH:mm:ss");
 
         }
-       
-        public void LoadImage(int imageId) {
-            if (ImageGetter == null) {
-                ImageGetter = new ImageGetter();
+        public void LoadImage(int imageId, string imageFile)
+        {
+            if (imageFileId != imageFile&& imageFileId!=null)
+            {
+                imageFile = imageFileId;
             }
-            var originalImage = (Image)ImageGetter.GetBitmap(0);
-            var modifiedImage = (Image)ImageGetter.GetBitmap(ImagIndex);
+            if (ImageGetter == null)
+            {
+                ImageGetter = new ImageDataIntializer();
+                OriginalImages = ImageGetter.LoadOrginalImages();
+
+            }
+
+            var modifiedImage = (Image)ImageGetter.GetBitmap(ImagIndex, imageFile);
             var preImgIndex = ImagIndex;
             bool toggleFlag = false;
             //var imageId = 1;
-            while (imageBlickFalg)
+            while (true)
             {
-                if (preImgIndex != ImagIndex) {
-                    modifiedImage = (Image)ImageGetter.GetBitmap(ImagIndex);
+                var originalKey = imageFile + ".json";
+                var originalImage = OriginalImages[originalKey];
+                if (imageFileId != imageFile)
+                {
+                    imageFile = imageFileId;
+                }
+                if (preImgIndex != ImagIndex)
+                {
+                    modifiedImage = (Image)ImageGetter.GetBitmap(ImagIndex, imageFile);
                 }
                 if (toggleFlag)
                 {
@@ -802,6 +824,37 @@ namespace SGS_DEPLOYMENTPROJECT
                 Thread.Sleep(250);
             }
         }
+        //Old Image Loader
+        //public void LoadImage(int imageId) {
+        //    if (ImageGetter == null) {
+        //        ImageGetter = new ImageGetter();
+        //    }
+        //    var originalImage = (Image)ImageGetter.GetBitmap(0);
+        //    var modifiedImage = (Image)ImageGetter.GetBitmap(ImagIndex);
+        //    var preImgIndex = ImagIndex;
+        //    bool toggleFlag = false;
+        //    //var imageId = 1;
+        //    while (imageBlickFalg)
+        //    {
+        //        if (preImgIndex != ImagIndex) {
+        //            modifiedImage = (Image)ImageGetter.GetBitmap(ImagIndex);
+        //        }
+        //        if (toggleFlag)
+        //        {
+
+        //            pictureBox.Image = originalImage;
+        //            toggleFlag = false;
+
+        //        }
+        //        else
+        //        {
+
+        //            pictureBox.Image = modifiedImage;
+        //            toggleFlag = true;
+        //        }
+        //        Thread.Sleep(250);
+        //    }
+        //}
 
         private void btnStop_Click(object sender, EventArgs e)
         {
@@ -821,7 +874,7 @@ namespace SGS_DEPLOYMENTPROJECT
         {
               // businessLogic.InitializeExcel();
                 xlRange = businessLogic.InitializeExcel();
-            ImageGetter = new ImageGetter();
+           // ImageGetter = new ImageGetter();
 
 
 

@@ -108,7 +108,14 @@
     <Compile Include="CreateUser.Designer.cs">
       <DependentUpon>CreateUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="NewImageGetterTester.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewImageGetterTester.Designer.cs">
+      <DependentUpon>NewImageGetterTester.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helper.cs" />
+    <Compile Include="ImageDataIntializer.cs" />
     <Compile Include="ImageGetter.cs" />
     <Compile Include="InputDilogBox.cs" />
     <Compile Include="IOCheck.cs">
@@ -122,12 +129,6 @@
     </Compile>
     <Compile Include="Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Performance------Moniter.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Performance------Moniter.Designer.cs">
-      <DependentUpon>Performance------Moniter.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -159,8 +160,8 @@
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Performance------Moniter.resx">
-      <DependentUpon>Performance------Moniter.cs</DependentUpon>
+    <EmbeddedResource Include="NewImageGetterTester.resx">
+      <DependentUpon>NewImageGetterTester.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
