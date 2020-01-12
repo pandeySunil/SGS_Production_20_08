@@ -38,27 +38,35 @@ namespace SGS_DEPLOYMENTPROJECT
         }
         public Bitmap GetBitmap(int shapepointer,string imageFileId)
         {
-            //imageFileId = imageFileId.Substring(0, imageFileId.IndexOf('.'));
-            if (ImageJsonDataDic != null && ImageJsonDataDic.Count == 0) {
-                LoadImageConfigFileNames();
-            }
-            
-               drawnShapes = ImageJsonDataDic[imageFileId+".json"];
-            var filePath = Helper.assetFolderPath + "\\"+imageFileId+".PNG";
-            if (shapepointer == 0)
+            try
             {
-                return new Bitmap(filePath);
-            }
-            else
-            {
-                if (drawnShapes.Count() > shapepointer)
+                //imageFileId = imageFileId.Substring(0, imageFileId.IndexOf('.'));
+                if (ImageJsonDataDic != null && ImageJsonDataDic.Count == 0)
                 {
-                    image = Image.FromFile(filePath);
-                    DrawShape(drawnShapes[shapepointer].x_cortinate, drawnShapes[shapepointer].y_cortinate,
-                        drawnShapes[shapepointer].reatSize, drawnShapes[shapepointer].p, drawnShapes[shapepointer].penSize, drawnShapes[shapepointer].reactString,
-                       drawnShapes[shapepointer].solid);
+                    LoadImageConfigFileNames();
                 }
-                return pbImageBitmap;
+
+                drawnShapes = ImageJsonDataDic[imageFileId + ".json"];
+                var filePath = Helper.assetFolderPath + "\\" + imageFileId + ".PNG";
+                if (shapepointer == 0)
+                {
+                    return new Bitmap(filePath);
+                }
+                else
+                {
+                    if (drawnShapes.Count() > shapepointer)
+                    {
+                        image = Image.FromFile(filePath);
+                        DrawShape(drawnShapes[shapepointer].x_cortinate, drawnShapes[shapepointer].y_cortinate,
+                            drawnShapes[shapepointer].reatSize, drawnShapes[shapepointer].p, drawnShapes[shapepointer].penSize, drawnShapes[shapepointer].reactString,
+                           drawnShapes[shapepointer].solid);
+                    }
+                    return pbImageBitmap;
+                }
+            }
+            catch (Exception Ex) {
+                MessageBox.Show(Ex.Message);
+                return null;
             }
         }
         public Dictionary<string, Bitmap> LoadOrginalImages()

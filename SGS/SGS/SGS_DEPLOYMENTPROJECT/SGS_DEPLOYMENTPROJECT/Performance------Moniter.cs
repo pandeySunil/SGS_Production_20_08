@@ -32,7 +32,7 @@ namespace SGS_DEPLOYMENTPROJECT
             //bool toggleFlag = true;
             //var originalImage = (Image)ImageGetter.GetBitmap(0);
             //var modifiedImage = (Image)ImageGetter.GetBitmap(imageId);
-            while (Flag)
+            while (true)
             {
                 //if (toggleFlag)
                 //{
@@ -48,9 +48,10 @@ namespace SGS_DEPLOYMENTPROJECT
                 //    toggleFlag = true;
                 //}
                 //Thread.Sleep(250);
-                if (useArdiuno)
+                var readText = "";
+                if (true)
                 {
-                    readText = ardiunoAdapter.Receive();
+                  readText = ardiunoAdapter.Receive();
                     Console.WriteLine("Code From Ardiuno  " + readText);
 
                 }
@@ -80,6 +81,7 @@ namespace SGS_DEPLOYMENTPROJECT
                 Console.WriteLine(stopWatch.ElapsedMilliseconds);
                 stopWatch.Stop();
                 stopWatch.Reset();
+
             }
            
         }

@@ -21,11 +21,14 @@ namespace SGS_DEPLOYMENTPROJECT
             Helper.FlashScreen = new FlashScreen();
             //Helper.iOCheck = new IOCheck();
 
-           // Application.Run(new NewImageGetterTester());
-            Application.Run(Helper.FlashScreen);
-            
-        }
+            // Application.Run(new NewImageGetterTester());
 
+            Application.Run(Helper.FlashScreen);
+            //Application.Run(new PrinterSettingForm());
+            
+
+
+
+        }
     }
 }
- 

@@ -23,7 +23,7 @@ namespace SGS_DEPLOYMENTPROJECT
         public int ImagIndex { get; set; }
         public int completed { get; set; }
         public int pending { get; set; }
-        public bool useArdiuno = true;
+        public bool useArdiuno = Convert.ToBoolean(ConfigurationManager.AppSettings.Get("useArdiuno"));
         public double totalTacTime;
         public List<Rows> ExcelRows {get;set;}
         public bool backgroudThreadSleepFlag;
@@ -39,6 +39,9 @@ namespace SGS_DEPLOYMENTPROJECT
         public static string trayCode;
         public static string sWInput;
         public static string switchCode;
+        public static string preImageFile;
+        public static string imageNewFile;
+        public static bool imageFileChangeFlag;
         public Thread ImageLoadThread { get; set; }
         public Thread BackGroundThread;
         public string imgUrl;
@@ -118,7 +121,7 @@ namespace SGS_DEPLOYMENTPROJECT
             if (useArdiuno) {
                 ardiunoAdapter = new ArdiunoAdapter(useArdiuno);
 
-                useArdiuno = Helper.ArdinoCon;
+               // useArdiuno = Helper.ArdinoCon;
                 //useArdiuno = true;
             }
            // DataLoad();
@@ -260,6 +263,12 @@ namespace SGS_DEPLOYMENTPROJECT
                 textBoxDescription.Text = descMessage;
                 Console.WriteLine(descMessage);
                 ImagIndex = Convert.ToInt32(ExcelRows[i].ImageId);
+                imageNewFile = ExcelRows[i].ImageFile;
+                if (imageFileId!=ExcelRows[i].ImageFile|| imageFileId==null) {
+                    imageFileId = ExcelRows[i].ImageFile;
+                    imageFileChangeFlag = true;
+                }
+               
                 while (iterationFlag)
                 {
                     // iterationFlag = false;
@@ -794,34 +803,44 @@ namespace SGS_DEPLOYMENTPROJECT
 
             var modifiedImage = (Image)ImageGetter.GetBitmap(ImagIndex, imageFile);
             var preImgIndex = ImagIndex;
+            
             bool toggleFlag = false;
             //var imageId = 1;
             while (true)
             {
-                var originalKey = imageFile + ".json";
-                var originalImage = OriginalImages[originalKey];
-                if (imageFileId != imageFile)
+                try
                 {
-                    imageFile = imageFileId;
-                }
-                if (preImgIndex != ImagIndex)
-                {
-                    modifiedImage = (Image)ImageGetter.GetBitmap(ImagIndex, imageFile);
-                }
-                if (toggleFlag)
-                {
+                    var originalKey = imageFile + ".json";
+                    var originalImage = OriginalImages[originalKey];
+                    if (imageFileId != imageFile)
+                    {
+                        imageFile = imageFileId;
+                    }
+                    if (true || preImgIndex != ImagIndex && preImageFile != imageFile || imageFileChangeFlag)
+                    {
+                        modifiedImage = (Image)ImageGetter.GetBitmap(ImagIndex, imageFile);
+                        preImageFile = imageFile;
+                        imageFileChangeFlag = false;
+                    }
+                    if (toggleFlag)
+                    {
 
-                    pictureBox.Image = originalImage;
-                    toggleFlag = false;
+                        pictureBox.Image = originalImage;
+                        toggleFlag = false;
 
-                }
-                else
-                {
+                    }
+                    else
+                    {
 
-                    pictureBox.Image = modifiedImage;
-                    toggleFlag = true;
+                        pictureBox.Image = modifiedImage;
+                        toggleFlag = true;
+                    }
+                    Thread.Sleep(250);
                 }
-                Thread.Sleep(250);
+                catch (Exception Ex) {
+                    MessageBox.Show(Ex.Message);
+                    Application.Exit();
+                }
             }
         }
         //Old Image Loader
@@ -878,6 +897,12 @@ namespace SGS_DEPLOYMENTPROJECT
 
 
 
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            var printObj = new Printer();
+            printObj.StartPrinting();
         }
     }
 }

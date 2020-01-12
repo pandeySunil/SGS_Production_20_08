@@ -149,6 +149,13 @@ namespace SGS_DEPLOYMENTPROJECT
             //var m = new Performance______Moniter();
             //m.Show();
             //m.Focus();
+
+       var  PrinterFor =     new PrinterSettingForm();
+            PrinterFor.Show();
+            PrinterFor.Focus();
+
+
+
         }
     }
 }

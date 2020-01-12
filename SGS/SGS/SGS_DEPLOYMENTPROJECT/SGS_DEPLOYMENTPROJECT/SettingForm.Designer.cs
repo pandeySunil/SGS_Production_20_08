@@ -149,11 +149,12 @@
             // 
             // button5
             // 
+            this.button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button5.Location = new System.Drawing.Point(142, 236);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(574, 23);
+            this.button5.Size = new System.Drawing.Size(574, 32);
             this.button5.TabIndex = 14;
-            this.button5.Text = "button5";
+            this.button5.Text = "Open Printer Preferences";
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
