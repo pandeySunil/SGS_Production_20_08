@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,7 +22,10 @@ namespace SGS_DEPLOYMENTPROJECT
 
         public FlashScreen()
         {
+           
             InitializeComponent();
+           
+            
             FormBorderStyle = FormBorderStyle.None;
            // WindowState = FormWindowState.Maximized;
            BackGroundThread = new Thread(() => BackGroundProc());
@@ -32,6 +37,7 @@ namespace SGS_DEPLOYMENTPROJECT
 
 
         }
+        
         private void BackGroundProc() {
             if (Helper.assetFolderPath == null || Helper.assetFolderPath == "")
             {

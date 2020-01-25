@@ -65,6 +65,7 @@ namespace SGS_DEPLOYMENTPROJECT
                 }
             }
             catch (Exception Ex) {
+                if(Ex.InnerException!=null)
                 MessageBox.Show(Ex.Message);
                 return null;
             }

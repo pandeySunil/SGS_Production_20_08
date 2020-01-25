@@ -29,14 +29,16 @@ namespace SGS_DEPLOYMENTPROJECT
 
             MessageBox.Show("Are you sure about your credentilas");
             
-            if (true||ValidateUser()) {
+            if (ValidateUser()) {
                 //if (Application.OpenForms.OfType<Login>().Count() > 0)
                 //{
                 //    Application.OpenForms.OfType<Login>().First().Close();
                 //}
                 lblError.Text = "SuccessFully Logged In ";
                 new Form1().Show();
-                
+                this.Hide();
+                this.Close();
+                this.Dispose();
             }
 
             else {
@@ -69,7 +71,7 @@ namespace SGS_DEPLOYMENTPROJECT
                 cmd.Parameters.AddWithValue("@Password", textBoxPassword.Text.Trim());
 
 
-                if (Convert.ToInt32(cmd.ExecuteScalar()) == 1)
+                if (Convert.ToInt32(cmd.ExecuteScalar())==1)
                 {
                     Helper.LoggerInUserIsAdmin = true;
                     Helper.LoggedInUserName = textBoxUsername.Text;

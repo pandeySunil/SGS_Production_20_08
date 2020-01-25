@@ -4,6 +4,7 @@ using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace SGS_DEPLOYMENTPROJECT
 {
@@ -30,7 +31,10 @@ namespace SGS_DEPLOYMENTPROJECT
            
             
         }
-
+        public void CloseSerialProt() {
+            this.serialPort.Close();
+            //this.serialPort.Dispose();
+        }
         public void GetInputArdiuno() {
 
         }
@@ -48,8 +52,14 @@ namespace SGS_DEPLOYMENTPROJECT
             }
         }
         public string Receive() {
-             input = String.Empty;
-            input =  serialPort.ReadLine();
+            try{
+                input = String.Empty;
+                input = serialPort.ReadLine();
+
+            }
+            catch (Exception Ex) {
+              //  MessageBox.Show("ArdiunoAdapter.receive---"+Ex.Message+Ex.StackTrace);
+            }
 
             return input;
         }

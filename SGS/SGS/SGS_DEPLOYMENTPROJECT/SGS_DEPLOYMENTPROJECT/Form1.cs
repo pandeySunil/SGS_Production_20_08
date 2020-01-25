@@ -10,6 +10,7 @@ using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -45,6 +46,9 @@ namespace SGS_DEPLOYMENTPROJECT
         public Thread ImageLoadThread { get; set; }
         public Thread BackGroundThread;
         public string imgUrl;
+        
+        public int cycleDataPointer;
+        public bool nextCycle;
         //public static int ImagIndex { get; set; }
         public static int counter { get; set; }
         public static String imageFileId;
@@ -52,6 +56,8 @@ namespace SGS_DEPLOYMENTPROJECT
         public Form1()
         {
             InitializeComponent();
+            //  useArdiuno = false;
+            
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -72,7 +78,9 @@ namespace SGS_DEPLOYMENTPROJECT
             catch (Exception Ex) {
                 MessageBox.Show("Please set the target");
             }
-
+            textBoxPullConnection.Text = Helper.GetKeyValue("StartingNumber");
+          
+            Run.Enabled = false;
             textBox2.ForeColor = System.Drawing.Color.GreenYellow;
             textBox1.ForeColor = System.Drawing.Color.GreenYellow;
             textBox3.ForeColor = System.Drawing.Color.GreenYellow;
@@ -86,8 +94,8 @@ namespace SGS_DEPLOYMENTPROJECT
             textTackTime.BackColor = System.Drawing.Color.Yellow;
 
             btnStart.BackColor = System.Drawing.Color.Green;
-            btnBck.BackColor = System.Drawing.Color.Yellow;
-            btnStop.BackColor = System.Drawing.Color.Red;
+            btnBck.BackColor = System.Drawing.Color.Red;
+            btnStop.BackColor = System.Drawing.Color.Yellow;
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
 
@@ -177,8 +185,8 @@ namespace SGS_DEPLOYMENTPROJECT
                 }
                 else {
                     DataLoad();
-                    textBox2.Text = refVale;
-                    
+                    textBox2.Text = refVale.Substring(refVale.LastIndexOf("\\") + 1);
+
                 }
             }
            
@@ -214,8 +222,13 @@ namespace SGS_DEPLOYMENTPROJECT
                 {
                     ardiunoAdapter.HardWareFunction("000010000");
                 }
+                if(!BackGroundThread.IsAlive)
                 BackGroundThread.Start();
-              
+                btnStart.Enabled = false;
+                btnStart.BackColor = System.Drawing.Color.Gray;
+                
+
+
             }
             else {
                 MessageBox.Show("NO asset folder is selected ");
@@ -238,6 +251,7 @@ namespace SGS_DEPLOYMENTPROJECT
             PictureBox.CheckForIllegalCrossThreadCalls = false;
             bool iterationFlag = true;
             int i = 0;
+            i = cycleDataPointer;
             //if (!ImageLoadThread.IsAlive)
             //{
             //  //  ImageLoadThread.Start();
@@ -272,7 +286,7 @@ namespace SGS_DEPLOYMENTPROJECT
                 while (iterationFlag)
                 {
                     // iterationFlag = false;
-                    if (i>=ExcelRows.Count())
+                    if (i>=ExcelRows.Count()-1)
                     {
                         //For tac time 
                         TimeSpan ts1 = stopWatch.Elapsed;
@@ -441,28 +455,49 @@ namespace SGS_DEPLOYMENTPROJECT
                         ts.Hours, ts.Minutes, ts.Seconds,
                         ts.Milliseconds / 10);
             textTackTime.Text = Convert.ToString(ts);
+           
 
         }
         private void Navigation()
         {
             ExcelSheetData e = new ExcelSheetData();
-            ExcelRows =  e.GetRows(xlRange);
+            ExcelRows = e.GetRows(xlRange);
             Console.WriteLine("Excel Sheet Data Loaded");
             TextBox.CheckForIllegalCrossThreadCalls = false;
-         var   ImageLoadThread = new Thread(() => LoadImage(0, ExcelRows[0].ImageFile));
+            var ImageLoadThread = new Thread(() => LoadImage(0, ExcelRows[0].ImageFile));
             ImageLoadThread.IsBackground = true;
             ImageLoadThread.Start();
-            while (true) {
-                textBox1.Text = Convert.ToString(Helper.target);
-                if ((Helper.target - completed) > 0) {
-                    NavigationModified2();
-                    completed++;
-                    
-                         textBox3.Text = Convert.ToString(completed);
-                    textBox5.Text = Convert.ToString(Helper.target - completed);
+            nextCycle = true;
+            Helper.GetBarcode();
+            while (true)
+            {
+                if (nextCycle) {
+                    nextCycle = false;
+                    textBox1.Text = Convert.ToString(Helper.target);
+                    if ((Helper.target - completed) > 0)
+                    {
+                        NavigationModified2();
+
+                        if (Helper.GetKeyValue("autoPrint")=="true"){
+                            DialogResult dialogResult = MessageBox.Show("Do You Want To Print The Barcode", "Print Barcode", MessageBoxButtons.YesNo);
+                            if (dialogResult == DialogResult.Yes)
+                            {
+                                var printObj = new Printer();
+                                printObj.StartPrinting();
+                            }
+                            
+                        }
+                        textBoxPullConnection.Text = Helper.GetKeyValue("StartingNumber");
+                        Run.Enabled = true;
+                        Run.BackColor = System.Drawing.Color.Green;
+                        completed++;
+
+                        textBox3.Text = Convert.ToString(completed);
+                        textBox5.Text = Convert.ToString(Helper.target - completed);
+                    }
                 }
             }
-            
+
             return;
             
             //var ImageLoadThread = new Thread(() => LoadImage(0));
@@ -616,17 +651,35 @@ namespace SGS_DEPLOYMENTPROJECT
                 {
                     Helper.assetFolderPath = fldrDlg.SelectedPath;
                     //fldrDlg.SelectedPath -- your result
-                    textBox2.Text = fldrDlg.SelectedPath;
+                    var refVale = fldrDlg.SelectedPath;
+                    textBox2.Text = refVale.Substring(refVale.LastIndexOf("\\")+1);
                     DataLoad();
                 }
             }
         }
         private void btnOn_Click(object sender, EventArgs e)
         {
+            try { 
+            //Emergency On Button
+            if (useArdiuno)
+            {
+                ardiunoAdapter.HardWareFunction("000020000");
 
+                ardiunoAdapter.CloseSerialProt();
+            }
+            Helper.form1 = new Form1();
+            Helper.form1.Show();
 
-
+            Helper.form1.Focus();
+            this.Close();
+            this.Dispose();
         }
+            catch (Exception Ex) {
+                //MessageBox.Show(Ex.Message + Ex.StackTrace);
+            }
+
+
+}
         public  string SwitchPress(int imageId)
         {
             var readText = "";
@@ -761,11 +814,27 @@ namespace SGS_DEPLOYMENTPROJECT
 
         private void button1_Click(object sender, EventArgs e)
         {
-            backgroudThreadSleepFlag = true;
+            if (!(Helper.LoggerInUserIsAdmin)) {
+                MessageBox.Show("You Don't Have Permissions To Access This Feature, Please Contact Admin");
+                return;
+            }
+            backgroudThreadSleepFlag = true; 
             DialogResult dialogResult = MessageBox.Show("Setting Will Terminate The Current Cycle", "Setting", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                BackGroundThread.Abort();
+                //ImageLoadThread.Abort();
+                //BackGroundThread.Abort();
+                if (useArdiuno)
+                {
+                   
+                    ardiunoAdapter.CloseSerialProt();
+                }
+                Helper.form1 = new Form1();
+                Helper.form1.Show();
+        
+                Helper.form1.Focus();
+                this.Close();
+                this.Dispose();
                 var settingForm = new SettingForm();
                 if (settingForm != null) {
                     settingForm.Show();
@@ -812,11 +881,11 @@ namespace SGS_DEPLOYMENTPROJECT
                 {
                     var originalKey = imageFile + ".json";
                     var originalImage = OriginalImages[originalKey];
-                    if (imageFileId != imageFile)
+                    if (imageFileId != imageFile&& imageFileId!=null)
                     {
                         imageFile = imageFileId;
                     }
-                    if (true || preImgIndex != ImagIndex && preImageFile != imageFile || imageFileChangeFlag)
+                    if ((imageFile!=null)&&(true|| preImgIndex != ImagIndex && preImageFile != imageFile || imageFileChangeFlag))
                     {
                         modifiedImage = (Image)ImageGetter.GetBitmap(ImagIndex, imageFile);
                         preImageFile = imageFile;
@@ -838,7 +907,7 @@ namespace SGS_DEPLOYMENTPROJECT
                     Thread.Sleep(250);
                 }
                 catch (Exception Ex) {
-                    MessageBox.Show(Ex.Message);
+                  MessageBox.Show(Ex.Message);
                     Application.Exit();
                 }
             }
@@ -878,15 +947,32 @@ namespace SGS_DEPLOYMENTPROJECT
         private void btnStop_Click(object sender, EventArgs e)
         {
             if (useArdiuno) {
-                ardiunoAdapter.HardWareFunction("000020000");
+                ardiunoAdapter.HardWareFunction("000030000");
+
             }
         }
 
         private void btnBck_Click(object sender, EventArgs e)
         {
-            if (useArdiuno)
+            try
             {
-                ardiunoAdapter.HardWareFunction("000030000");
+               // BackGroundThread.Abort();
+               //Back Buton
+                if (useArdiuno)
+                {
+                    ardiunoAdapter.HardWareFunction("000020000");
+
+                    ardiunoAdapter.CloseSerialProt();
+                }
+                Helper.form1 = new Form1();
+                Helper.form1.Show();
+
+                Helper.form1.Focus();
+                this.Close();
+                this.Dispose();
+            }
+            catch (Exception Ex) {
+                //MessageBox.Show(Ex.Message + Ex.StackTrace);
             }
         }
         private void DataLoad()
@@ -903,6 +989,17 @@ namespace SGS_DEPLOYMENTPROJECT
         {
             var printObj = new Printer();
             printObj.StartPrinting();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Run.Enabled = false;
+            Run.BackColor = System.Drawing.Color.Gray;
+            nextCycle = true;
+            cycleDataPointer = 0;
+            Helper.GetBarcode();
+           
+
         }
     }
 }

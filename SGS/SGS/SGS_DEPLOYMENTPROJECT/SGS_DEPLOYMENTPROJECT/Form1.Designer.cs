@@ -60,6 +60,7 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.Run = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
@@ -149,12 +150,13 @@
             // btnStart
             // 
             this.btnStart.BackColor = System.Drawing.Color.Red;
-            this.btnStart.Location = new System.Drawing.Point(614, 62);
+            this.btnStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStart.Location = new System.Drawing.Point(282, 3);
             this.btnStart.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(189, 73);
+            this.btnStart.Size = new System.Drawing.Size(106, 35);
             this.btnStart.TabIndex = 6;
-            this.btnStart.Text = "START";
+            this.btnStart.Text = "Load File";
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.btnRun_Click);
             // 
@@ -200,9 +202,9 @@
             this.label2.Location = new System.Drawing.Point(623, 550);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(199, 24);
+            this.label2.Size = new System.Drawing.Size(102, 24);
             this.label2.TabIndex = 10;
-            this.label2.Text = "BARCODE SCANNER";
+            this.label2.Text = "BARCODE";
             // 
             // label3
             // 
@@ -330,7 +332,7 @@
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(186, 78);
             this.btnStop.TabIndex = 23;
-            this.btnStop.Text = "STOP";
+            this.btnStop.Text = "HALT";
             this.btnStop.UseVisualStyleBackColor = true;
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
@@ -420,6 +422,18 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click_1);
             // 
+            // Run
+            // 
+            this.Run.BackColor = System.Drawing.Color.Red;
+            this.Run.Location = new System.Drawing.Point(614, 62);
+            this.Run.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.Run.Name = "Run";
+            this.Run.Size = new System.Drawing.Size(189, 76);
+            this.Run.TabIndex = 30;
+            this.Run.Text = "START";
+            this.Run.UseVisualStyleBackColor = true;
+            this.Run.Click += new System.EventHandler(this.button3_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -427,6 +441,7 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(1370, 618);
+            this.Controls.Add(this.Run);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.labelDate);
             this.Controls.Add(this.labelTime);
@@ -500,6 +515,7 @@
         private System.Windows.Forms.Label labelDate;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button Run;
     }
 }
 
