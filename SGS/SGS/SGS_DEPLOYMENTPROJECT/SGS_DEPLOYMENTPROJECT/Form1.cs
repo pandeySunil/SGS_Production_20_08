@@ -993,6 +993,10 @@ namespace SGS_DEPLOYMENTPROJECT
 
         private void button3_Click(object sender, EventArgs e)
         {
+            if (useArdiuno) {
+                ardiunoAdapter.CloseSerialProt();
+                ardiunoAdapter.OpenSerialProt();
+            }
             Run.Enabled = false;
             Run.BackColor = System.Drawing.Color.Gray;
             nextCycle = true;

@@ -35,6 +35,11 @@ namespace SGS_DEPLOYMENTPROJECT
             this.serialPort.Close();
             //this.serialPort.Dispose();
         }
+        public void OpenSerialProt()
+        {
+            this.serialPort.Open();
+            //this.serialPort.Dispose();
+        }
         public void GetInputArdiuno() {
 
         }
@@ -58,7 +63,7 @@ namespace SGS_DEPLOYMENTPROJECT
 
             }
             catch (Exception Ex) {
-              //  MessageBox.Show("ArdiunoAdapter.receive---"+Ex.Message+Ex.StackTrace);
+            //  MessageBox.Show("ArdiunoAdapter.receive---"+Ex.Message+Ex.StackTrace);
             }
 
             return input;
